@@ -1,695 +1,352 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interactive Concepts — Best Visual Upgrade</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Margesh — Modern Landing</title>
+  <meta name="description" content="A clean, modern landing page — redesigned for clarity, accessibility and visual impact." />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0b1220;
-      --surface: #121a2e;
-      --border: rgba(255,255,255,0.08);
-      --accent: #22d3ee;
-      --accent-2: #9333ea;
-      --text: #e2e8f0;
+    /* ===== Reset & base ===== */
+    :root{
+      --bg:#0f1724;            /* deep page background */
+      --card:#0b1220;
+      --muted:#98a0b3;
+      --glass: rgba(255,255,255,0.04);
+      --accent:#6ee7b7;        /* mint accent */
+      --accent-2:#7c6cff;     /* violet accent */
+      --white: #e6eef8;
+      --radius:14px;
+      --max-width:1100px;
+      --glass-border: rgba(255,255,255,0.06);
+      color-scheme: dark;
     }
-    body { background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
-    /* Animated hero gradient */
-    .gradient-hero {
-      background: radial-gradient(1200px 600px at 20% 20%, rgba(34,211,238,.2), transparent 60%),
-                  radial-gradient(900px 600px at 80% 0%, rgba(147,51,234,.18), transparent 60%),
-                  linear-gradient(120deg, #0b1220 0%, #0f172a 60%, #0b1220 100%);
-      position: relative;
-      overflow: hidden;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(124,108,255,0.08), transparent 6%),
+        radial-gradient(1000px 500px at 90% 80%, rgba(110,231,183,0.03), transparent 6%),
+        var(--bg);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:40px 20px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
     }
-    .hero-orb {
-      position: absolute; border-radius: 50%;
-      filter: blur(40px); opacity: .35;
-      animation: drift 16s ease-in-out infinite;
+
+    .container{
+      width:100%;
+      max-width:var(--max-width);
+      margin:0 auto;
     }
-    @keyframes drift {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(20px, -24px) scale(1.08); }
-      100% { transform: translate(0, 0) scale(1); }
+
+    /* ===== Top nav ===== */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:28px;
     }
-    /* Glass card */
-    .glass {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:var(--white);
     }
-    .glass:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 12px 24px rgba(0,0,0,.35), 0 0 24px rgba(34,211,238,.25);
-      border-color: rgba(34,211,238,.6);
+    .logo {
+      width:44px;height:44px;border-radius:10px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow: 0 6px 22px rgba(124,108,255,0.12), inset 0 -6px 20px rgba(255,255,255,0.04);
+      font-weight:700;font-family:"JetBrains Mono";font-size:16px;
     }
-    /* Button ripple */
-    .ripple {
-      position: relative; overflow: hidden;
+    nav{
+      display:flex;
+      align-items:center;
+      gap:18px;
     }
-    .ripple:after {
-      content: ""; position: absolute; inset: 0; border-radius: inherit;
-      background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, transparent 60%);
-      transform: scale(0); opacity: 0; transition: transform .3s, opacity .4s;
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95rem;
+      padding:8px 10px;
+      border-radius:10px;
     }
-    .ripple:active:after { transform: scale(1); opacity: .6; }
-    /* Panel */
-    .panel {
-      background: rgba(2,6,23,0.5);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
+    nav a:hover{ color:var(--white); background:var(--glass); border:1px solid var(--glass-border) }
+
+    .cta{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#071223;
+      padding:9px 14px;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow:0 8px 26px rgba(124,108,255,0.12);
     }
-    /* Tooltip */
-    .tooltip {
-      position: relative;
+
+    /* ===== Hero ===== */
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:28px;
+      align-items:center;
+      margin-bottom:40px;
     }
-    .tooltip:hover .tooltip-content {
-      opacity: 1; transform: translateY(-6px);
+
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:36px;
+      box-shadow: 0 10px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border:1px solid var(--glass-border);
     }
-    .tooltip-content {
-      position: absolute; left: 50%; transform: translateX(-50%) translateY(0);
-      background: rgb(15,23,42); border: 1px solid var(--border);
-      color: #cbd5e1; padding: .5rem .75rem; border-radius: .5rem;
-      white-space: nowrap; opacity: 0; pointer-events: none; transition: all .2s ease;
-      box-shadow: 0 8px 16px rgba(0,0,0,.4);
+
+    .hero h1{
+      margin:0 0 12px 0;
+      font-size:clamp(1.6rem, 3.6vw, 2.4rem);
+      line-height:1.02;
+      letter-spacing:-0.02em;
+      color:var(--white);
     }
-    /* Small helpers */
-    .tag { background: rgba(34,211,238,.12); border: 1px solid rgba(34,211,238,.35); color: var(--accent); }
+    .lead{
+      color:var(--muted);
+      margin:0 0 20px 0;
+      font-size:1rem;
+    }
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+    .stat-row{
+      display:flex;
+      gap:14px;
+      margin-top:22px;
+    }
+    .stat{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:12px 14px;border-radius:10px;
+      min-width:92px;text-align:center;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .stat b{display:block;font-size:1.05rem;color:var(--white)}
+    .stat span{font-size:0.82rem;color:var(--muted)}
+
+    /* right column card (visual) */
+    .visual {
+      padding:18px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(124,108,255,0.06), rgba(110,231,183,0.03));
+      border:1px solid rgba(255,255,255,0.03);
+      min-height:280px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    /* fake phone / mockup */
+    .device{
+      width:220px;height:420px;border-radius:24px;
+      background:linear-gradient(180deg,#071223, #081426);
+      box-shadow: 0 20px 60px rgba(2,6,23,0.6), inset 0 -12px 30px rgba(124,108,255,0.03);
+      border:1px solid rgba(255,255,255,0.04);
+      display:flex;flex-direction:column;
+      padding:16px;gap:10px;
+    }
+    .device .top{
+      height:10px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
+    }
+    .device .screen{
+      flex:1;border-radius:12px;background:linear-gradient(180deg,#072034,#0b2030);
+      padding:12px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;
+      color:var(--muted);
+      font-size:0.85rem;
+    }
+    .pill{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px; font-weight:600}
+    .device footer{height:12px;border-radius:6px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent)}
+
+    /* ===== Features grid ===== */
+    .features{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:36px;
+    }
+    .card{
+      background:var(--card);
+      padding:20px;border-radius:12px;
+      border:1px solid var(--glass-border);
+      transition:transform .25s ease, box-shadow .25s ease;
+      cursor:default;
+    }
+    .card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 50px rgba(2,6,23,0.6);
+    }
+    .card h3{margin:0 0 8px 0;font-size:1.05rem}
+    .card p{margin:0;color:var(--muted);font-size:0.95rem}
+
+    .icon{
+      width:44px;height:44px;border-radius:10px;
+      display:grid;place-items:center;margin-bottom:12px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.02);
+      font-weight:700;color:var(--white);
+    }
+
+    /* ===== CTA band ===== */
+    .cta-band{
+      margin:28px 0;
+      padding:18px;border-radius:14px;
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      background:linear-gradient(90deg, rgba(124,108,255,0.06), rgba(110,231,183,0.02));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .cta-band .text{color:var(--white);font-weight:700}
+    .cta-band .sub{color:var(--muted);font-weight:500;font-size:0.95rem}
+
+    /* ===== Contact ===== */
+    form{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;
+    }
+    label{font-size:0.85rem;color:var(--muted)}
+    input, textarea {
+      background:transparent;border:1px solid rgba(255,255,255,0.04);
+      padding:12px;border-radius:10px;color:var(--white);
+      outline:none;font-size:0.95rem;
+    }
+    textarea{grid-column:1/-1;min-height:120px;resize:vertical}
+    .form-footer{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .btn-ghost{
+      background:transparent;color:var(--accent);border:1px dashed rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;font-weight:700;text-decoration:none;
+    }
+
+    /* ===== Footer ===== */
+    footer{
+      margin-top:26px;color:var(--muted);font-size:0.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px;
+    }
+
+    /* ===== Small screens ===== */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;align-items:stretch}
+      .features{grid-template-columns:repeat(2,1fr)}
+      form{grid-template-columns:1fr}
+      .device{width:180px;height:340px}
+    }
+    @media (max-width:640px){
+      header{flex-direction:column;align-items:flex-start;gap:14px}
+      nav{display:none}
+      .mobile-nav-toggle{display:inline-flex}
+      .features{grid-template-columns:1fr}
+      body{padding:18px}
+    }
+
+    /* ===== Simple reveal animation for elements ===== */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);}
+    .reveal.revealed{opacity:1;transform:none}
+
+    /* small helper */
+    .muted{color:var(--muted);font-size:0.9rem}
+    .small{font-size:0.85rem}
+    a.focusable:focus{outline:3px solid rgba(124,108,255,0.16);outline-offset:3px}
   </style>
 </head>
-
 <body>
-  <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-slate-900/50 border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="h-8 w-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
-          <span class="text-teal-300 font-bold">∴</span>
+  <div class="container" role="main">
+    <header>
+      <a class="brand" href="#" aria-label="Homepage">
+        <span class="logo" aria-hidden="true">MP</span>
+        <div>
+          <div style="font-weight:800">Margesh</div>
+          <div class="small muted">Design · Frontend</div>
         </div>
-        <p class="text-sm text-slate-300">Interactive Concepts</p>
-      </div>
-      <nav class="flex items-center gap-3">
-        <a href="#concepts" class="ripple px-3 py-1.5 rounded-md text-sm bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">Concepts</a>
-        <a href="#detail" class="ripple px-3 py-1.5 rounded-md text-sm bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold transition">Detail panel</a>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a class="focusable" href="#features">Features</a>
+        <a class="focusable" href="#work">Work</a>
+        <a class="focusable" href="#contact">Contact</a>
+        <a class="cta focusable" href="#contact">Get started</a>
       </nav>
-    </div>
-  </header>
 
-  <!-- Hero -->
-  <section class="gradient-hero relative">
-    <div class="hero-orb" style="width:280px;height:280px;left:8%;top:12%;background: #22d3ee;"></div>
-    <div class="hero-orb" style="width:220px;height:220px;right:10%;top:6%;background: #9333ea;"></div>
-    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Interactive concept demos</h1>
-          <p id="tagline" class="mt-3 text-slate-300">AI • Cloud • Data • Cybersecurity • Full‑Stack</p>
-          <div class="mt-6 flex gap-3">
-            <a href="#concepts" class="ripple px-4 py-2 rounded-md bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold transition">Explore concepts</a>
-            <button id="themeToggle" class="ripple px-4 py-2 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">Glow mode</button>
-          </div>
-          <div class="mt-6 flex gap-2">
-            <span class="tag px-2 py-1 rounded text-xs">Animated</span>
-            <span class="tag px-2 py-1 rounded text-xs">Chart‑driven</span>
-            <span class="tag px-2 py-1 rounded text-xs">Micro‑interactions</span>
-          </div>
+      <!-- mobile toggle (only visible on small screens) -->
+      <button class="mobile-nav-toggle focusable" aria-expanded="false" aria-controls="mobileMenu" style="display:none;background:transparent;border:none;color:var(--muted)">
+        ☰
+      </button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-card reveal">
+        <h1 id="hero-heading">Design-forward, fast, and accessible websites — built with intention.</h1>
+        <p class="lead">A modern UI template with subtle motion, clear hierarchy and micro-interactions. Swap in your content and deploy — or use this as a design system starter.</p>
+
+        <div class="hero-ctas">
+          <a class="cta focusable" href="#contact">Start a project</a>
+          <a class="btn-ghost focusable" href="#work">See sample work</a>
         </div>
-        <div class="panel rounded-xl p-4 border border-slate-800">
-          <canvas id="heroChart" class="w-full h-48"></canvas>
-          <div class="mt-4 grid grid-cols-2 gap-3">
-            <button class="ripple px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm" data-hero="ai">AI spikes</button>
-            <button class="ripple px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm" data-hero="cloud">Cloud uptime</button>
-            <button class="ripple px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm" data-hero="data">Data trend</button>
-            <button class="ripple px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm" data-hero="cyber">Threat pulse</button>
+
+        <div class="stat-row" aria-hidden="true">
+          <div class="stat">
+            <b>1.2s</b><span>Avg load</span>
+          </div>
+          <div class="stat">
+            <b>99%</b><span>Accessibility</span>
+          </div>
+          <div class="stat">
+            <b>24/7</b><span>Support</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Concepts -->
-  <section id="concepts" class="max-w-7xl mx-auto px-4 py-14">
-    <div class="flex items-baseline justify-between mb-6">
-      <h2 class="text-2xl font-bold">Concepts</h2>
-      <p class="text-sm text-slate-400">Click a card to load an interactive demo below</p>
-    </div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-      <button class="glass p-6 rounded-xl text-left tooltip" data-demo="ai">
-        <div class="text-3xl mb-2">🤖</div>
-        <h3 class="text-lg font-bold">Artificial Intelligence</h3>
-        <p class="mt-1 text-sm text-slate-400">LLMs, automation, predictive signals</p>
-        <div class="tooltip-content">Heatmap & attention path demo</div>
-      </button>
-
-      <button class="glass p-6 rounded-xl text-left tooltip" data-demo="cloud">
-        <div class="text-3xl mb-2">☁️</div>
-        <h3 class="text-lg font-bold">Cloud & DevOps</h3>
-        <p class="mt-1 text-sm text-slate-400">Scalability, cost vs uptime</p>
-        <div class="tooltip-content">Dual‑axis chart with overlay</div>
-      </button>
-
-      <button class="glass p-6 rounded-xl text-left tooltip" data-demo="data">
-        <div class="text-3xl mb-2">📊</div>
-        <h3 class="text-lg font-bold">Data Science</h3>
-        <p class="mt-1 text-sm text-slate-400">Forecasts, filters, sliders</p>
-        <div class="tooltip-content">Seasonality + growth sliders</div>
-      </button>
-
-      <button class="glass p-6 rounded-xl text-left tooltip" data-demo="cyber">
-        <div class="text-3xl mb-2">🔒</div>
-        <h3 class="text-lg font-bold">Cybersecurity</h3>
-        <p class="mt-1 text-sm text-slate-400">Defense layers, threat pulse</p>
-        <div class="tooltip-content">Hover rings with case notes</div>
-      </button>
-
-      <button class="glass p-6 rounded-xl text-left tooltip" data-demo="fullstack">
-        <div class="text-3xl mb-2">💻</div>
-        <h3 class="text-lg font-bold">Full‑Stack Dev</h3>
-        <p class="mt-1 text-sm text-slate-400">API, state, UI fidelity</p>
-        <div class="tooltip-content">Stateful mini UI + chart</div>
-      </button>
-    </div>
-  </section>
-
-  <!-- Detail panel -->
-  <section id="detail" class="max-w-7xl mx-auto px-4 pb-20">
-    <div class="panel rounded-2xl p-6 md:p-8 border border-slate-800">
-      <div class="flex items-start justify-between">
-        <div>
-          <h3 id="demoTitle" class="text-xl font-bold">Pick a demo to begin</h3>
-          <p id="demoSubtitle" class="text-sm text-slate-400">Highly interactive visualizations with smooth micro‑interactions</p>
+      <!-- visual mockup -->
+      <aside class="visual reveal" aria-hidden="true">
+        <div class="device" role="img" aria-label="Interface preview">
+          <div class="top"></div>
+          <div class="screen">
+            <div class="pill">Portfolio · Latest</div>
+            <div style="text-align:center; padding:8px;">
+              <h4 style="margin:6px 0 4px 0">Minimal Dashboard</h4>
+              <p class="muted small" style="margin:0">Clean metrics, elegant typography, and responsive layout.</p>
+            </div>
+            <div style="display:flex;gap:8px; align-items:center;">
+              <div class="pill">UI</div>
+              <div class="pill">UX</div>
+              <div class="pill">Frontend</div>
+            </div>
+          </div>
+          <footer></footer>
         </div>
-        <button id="resetDemo" class="ripple px-3 py-1.5 rounded-md text-sm bg-slate-800 hover:bg-slate-700 border border-slate-700">Reset</button>
-      </div>
+      </aside>
+    </section>
 
-      <div id="demoRoot" class="mt-6 grid md:grid-cols-3 gap-6 items-start">
-        <div id="demoControls" class="md:col-span-1 space-y-4"></div>
-        <div id="demoViz" class="md:col-span-2 rounded-xl border border-slate-800 bg-slate-900 p-4 min-h-[320px] relative overflow-hidden">
-          <div class="absolute inset-0 flex items-center justify-center text-slate-500">Select any concept card to load a live demo here.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- Features -->
+    <section id="features" aria-labelledby="features-head">
+      <h2 id="features-head" style="margin:0 0 14px 0">What you get</h2>
+      <p class="muted small" style="margin:0 0 18px 0">A design-forward template with best-practice accessibility, responsive layout, and lightweight code.</p>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 py-8 text-sm text-slate-400 flex items-center justify-between">
-      <p>Interactive Concepts • Visual upgrade edition</p>
-      <div class="flex gap-3">
-        <a class="ripple hover:text-teal-300" href="#concepts">Concepts</a>
-        <a class="ripple hover:text-teal-300" href="#detail">Detail</a>
-      </div>
-    </div>
-  </footer>
+      <div class="features">
+        <article class="card reveal" aria-labelledby="f1">
+          <div class="icon">A</div>
+          <h3 id="f1">Accessible by default</h3>
+          <p>Semantic markup, focus states, aria labels and good color contrast so your site works for everyone.</p>
+        </article>
 
-  <!-- App script -->
-  <script>
-    // Small helpers
-    const $ = (s, r = document) => r.querySelector(s);
-    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-    const el = (html) => { const d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstElementChild; };
+        <article class="card reveal" aria-labelledby="f2">
+          <div class="icon">R</div>
+          <h3 id="f2">Responsive & fast</h3>
+          <p>Fluid grid, responsive images and minimal dependencies to keep load times down on mobile.</p>
+        </article>
 
-    // Theme toggle (glow accent)
-    $('#themeToggle').addEventListener('click', () => {
-      document.body.classList.toggle('glow');
-      const to = document.body.classList.contains('glow') ? '#22d3ee' : '#1f2937';
-      gsap.to('#themeToggle', { backgroundColor: to, duration: .3 });
-    });
+        <article class="card reveal" aria-labelledby="f3">
+          <div class="icon">M</div>
+          <h3 id="f3">Micro-interactions</h3>
+          <p>Subtle motion for delight: hover states, scroll reveals, and tiny transitions that make the UI feel alive.</p>
+        </article>
 
-    // Hero tagline rotation
-    const taglines = [
-      'AI • Cloud • Data • Cybersecurity • Full‑Stack',
-      'Animated charts • SVG rings • Micro‑interactions',
-      'Interactive controls • Smooth GSAP transitions'
-    ];
-    let tIndex = 0;
-    setInterval(() => {
-      tIndex = (tIndex + 1) % taglines.length;
-      const elTag = $('#tagline');
-      gsap.to(elTag, { opacity: 0, y: -6, duration: .2, onComplete: () => {
-        elTag.textContent = taglines[tIndex];
-        gsap.to(elTag, { opacity: 1, y: 0, duration: .25 });
-      }});
-    }, 2600);
-
-    // Hero chart
-    const heroCtx = $('#heroChart').getContext('2d');
-    const heroChart = new Chart(heroCtx, {
-      type: 'line',
-      data: {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],
-        datasets: [{
-          label: 'Momentum',
-          data: [3,5,4,7,6,9,10,13],
-          borderColor: '#22d3ee',
-          backgroundColor: 'rgba(34,211,238,.18)',
-          tension: .35, fill: true, pointRadius: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { x: { ticks: { color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' }, beginAtZero: true } }
-      }
-    });
-    $$('#heroChart ~ .grid [data-hero]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const map = {
-          ai:   [2,4,8,6,12,9,15,20],
-          cloud:[99.9,99.92,99.94,99.96,99.97,99.98,99.99,100],
-          data: [12,14,15,18,22,25,28,30],
-          cyber:[1,2,3,5,4,6,8,10]
-        };
-        heroChart.data.datasets[0].data = map[btn.dataset.hero];
-        heroChart.update();
-        gsap.fromTo('#heroChart', { scale: .98 }, { scale: 1, duration: .25 });
-      });
-    });
-
-    // Demo framework
-    const demoTitle = $('#demoTitle');
-    const demoSubtitle = $('#demoSubtitle');
-    const demoControls = $('#demoControls');
-    const demoViz = $('#demoViz');
-
-    const clearViz = () => {
-      demoViz.innerHTML = '';
-    };
-
-    // Demos
-    const demos = {
-      ai: {
-        name: 'Artificial Intelligence',
-        desc: 'Attention heatmap with parameter controls.',
-        renderControls() {
-          demoControls.innerHTML = '';
-          demoControls.appendChild(el(`
-            <div class="rounded-lg border border-slate-800 bg-slate-900 p-3 space-y-3">
-              <div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm">Attention noise</span>
-                  <span id="aiNoiseLbl" class="text-xs text-slate-400">6</span>
-                </div>
-                <input id="aiNoise" type="range" min="0" max="20" value="6" class="w-full accent-teal-500">
-              </div>
-              <div>
-                <span class="text-sm">Focus</span>
-                <select id="aiFocus" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-sm">
-                  <option value="left">Left</option>
-                  <option value="center" selected>Center</option>
-                  <option value="right">Right</option>
-                </select>
-              </div>
-            </div>
-          `));
-          $('#aiNoise').addEventListener('input', () => {
-            $('#aiNoiseLbl').textContent = $('#aiNoise').value; demos.ai.renderViz();
-          });
-          $('#aiFocus').addEventListener('change', demos.ai.renderViz);
-        },
-        renderViz() {
-          clearViz();
-          const noise = parseInt($('#aiNoise').value, 10);
-          const focus = $('#aiFocus').value;
-
-          const canvas = el('<canvas class="w-full h-72"></canvas>');
-          demoViz.appendChild(canvas);
-          const ctx = canvas.getContext('2d');
-
-          // Generate a heatmap-like matrix
-          const labels = Array.from({length: 20}, (_, i) => i + 1);
-          const base = labels.map(i => labels.map(j => {
-            const fx = focus === 'left' ? 6 : focus === 'center' ? 10 : 14;
-            const dist = Math.hypot(i - fx, j - 10);
-            const v = Math.max(0, 100 - dist * 8 + (Math.random() - .5) * noise * 2);
-            return Math.round(v);
-          }));
-
-          new Chart(ctx, {
-            type: 'matrix', // custom fallback: draw via plugin below
-            data: { datasets: [{
-              label: 'Attention',
-              data: base.flatMap((row, i) => row.map((v, j) => ({ x: j, y: i, v }))),
-            }] },
-            options: { plugins: { legend: { display: false } } }
-          });
-
-          // Draw manually (matrix squares)
-          const cell = 16, pad = 6;
-          const w = cell * labels.length, h = cell * labels.length;
-          canvas.width = w + pad * 2; canvas.height = h + pad * 2;
-          const colors = (v) => `hsl(${Math.max(0, 220 - v)}, 80%, ${30 + v/4}%)`;
-          base.forEach((row, i) => row.forEach((v, j) => {
-            ctx.fillStyle = colors(v);
-            ctx.fillRect(pad + j * cell, pad + i * cell, cell - 1, cell - 1);
-          }));
-
-          const note = el(`<div class="mt-3 text-sm text-slate-300"><span class="font-semibold">Tip:</span> Adjust noise and focus to see attention drift.</div>`);
-          demoViz.appendChild(note);
-          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3 });
-        }
-      },
-
-      cloud: {
-        name: 'Cloud & DevOps',
-        desc: 'Dual‑axis uptime vs cost with region selector.',
-        renderControls() {
-          demoControls.innerHTML = '';
-          demoControls.appendChild(el(`
-            <div class="rounded-lg border border-slate-800 bg-slate-900 p-3 space-y-3">
-              <div>
-                <span class="text-sm">Region</span>
-                <select id="dvRegion" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-sm">
-                  <option value="us" selected>US‑East</option>
-                  <option value="eu">EU‑West</option>
-                  <option value="apac">APAC</option>
-                </select>
-              </div>
-              <label class="inline-flex items-center gap-2 text-sm">
-                <input id="dvCost" type="checkbox" class="accent-teal-500" checked>
-                Show cost overlay
-              </label>
-            </div>
-          `));
-          $('#dvRegion').addEventListener('change', demos.cloud.renderViz);
-          $('#dvCost').addEventListener('change', demos.cloud.renderViz);
-        },
-        renderViz() {
-          clearViz();
-          const region = $('#dvRegion').value;
-          const showCost = $('#dvCost').checked;
-
-          const labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-          const uptimeBase = { us: [99.92,99.94,99.95,99.96,99.97,99.98,99.99], eu: [99.9,99.92,99.93,99.94,99.95,99.95,99.96], apac: [99.88,99.9,99.92,99.93,99.94,99.95,99.96] }[region];
-          const costBase   = { us: [120,115,118,122,119,117,121], eu: [130,127,129,131,128,126,130], apac: [110,108,111,113,112,109,114] }[region];
-
-          const canvas = el('<canvas class="w-full h-72"></canvas>');
-          demoViz.appendChild(canvas);
-          const ctx = canvas.getContext('2d');
-
-          const datasets = [{
-            label: 'Uptime %',
-            data: uptimeBase,
-            yAxisID: 'y',
-            borderColor: '#22d3ee',
-            backgroundColor: 'rgba(34,211,238,.18)',
-            tension: .35,
-            fill: true
-          }];
-          if (showCost) {
-            datasets.push({
-              label: 'Daily cost ($)',
-              data: costBase,
-              yAxisID: 'y1',
-              type: 'bar',
-              backgroundColor: 'rgba(147,51,234,.35)',
-              borderColor: '#9333ea'
-            });
-          }
-
-          new Chart(ctx, {
-            type: 'line',
-            data: { labels, datasets },
-            options: {
-              responsive: true,
-              plugins: { legend: { labels: { color: '#cbd5e1' } } },
-              scales: {
-                y: { position: 'left', ticks: { color: '#94a3b8', callback: v => v + '%' }, min: 99.85, max: 100 },
-                y1:{ position: 'right', ticks: { color: '#c084fc' }, grid: { drawOnChartArea: false } },
-                x: { ticks: { color: '#94a3b8' } }
-              }
-            }
-          });
-
-          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3 });
-        }
-      },
-
-      data: {
-        name: 'Data Science',
-        desc: 'Forecast with growth & seasonality sliders.',
-        renderControls() {
-          demoControls.innerHTML = '';
-          demoControls.appendChild(el(`
-            <div class="rounded-lg border border-slate-800 bg-slate-900 p-3 space-y-3">
-              <div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm">Growth rate</span>
-                  <span id="dsRateLbl" class="text-xs text-slate-400">12%</span>
-                </div>
-                <input id="dsRate" type="range" min="0" max="30" value="12" class="w-full accent-teal-500">
-              </div>
-              <div>
-                <span class="text-sm">Seasonality</span>
-                <div class="mt-2 flex gap-2">
-                  <button data-season="low"   class="ripple px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Low</button>
-                  <button data-season="med"   class="ripple px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Medium</button>
-                  <button data-season="high"  class="ripple px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">High</button>
-                </div>
-              </div>
-            </div>
-          `));
-          $('#dsRate').addEventListener('input', e => {
-            $('#dsRateLbl').textContent = e.target.value + '%'; demos.data.renderViz();
-          });
-          $$('#demoControls [data-season]').forEach(b => b.addEventListener('click', () => {
-            $$('#demoControls [data-season]').forEach(x => x.classList.remove('bg-teal-600','text-slate-900'));
-            b.classList.add('bg-teal-600','text-slate-900'); b.dataset.active = '1';
-            demos.data.renderViz();
-          }));
-          // default season
-          $$('#demoControls [data-season]')[1].click();
-        },
-        renderViz() {
-          clearViz();
-          const rate = parseInt($('#dsRate').value, 10);
-          const seasonEl = $$('#demoControls [data-season]').find(x => x.dataset.active === '1');
-          const season = seasonEl ? seasonEl.dataset.season : 'med';
-
-          const seasonAmp = { low: 2, med: 5, high: 9 }[season];
-          const base = [12, 13, 14, 16, 18, 19, 21, 24, 25, 27, 29, 32];
-          const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-          const data = base.map((v, i) => {
-            const s = Math.sin((i/12) * Math.PI * 2) * seasonAmp;
-            const n = (Math.random() - 0.5) * 4;
-            return Math.max(0, v * (1 + rate/100) + s + n);
-          });
-
-          const canvas = el('<canvas class="w-full h-72"></canvas>');
-          demoViz.appendChild(canvas);
-          const ctx = canvas.getContext('2d');
-
-          new Chart(ctx, {
-            type: 'line',
-            data: { labels, datasets: [{
-              label: 'Forecast',
-              data,
-              borderColor: '#22d3ee',
-              backgroundColor: 'rgba(34,211,238,.18)',
-              tension: .35, fill: true, pointRadius: 0
-            }]},
-            options: {
-              responsive: true,
-              plugins: { legend: { display: false }, tooltip: { enabled: true } },
-              scales: { x: { ticks: { color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' }, beginAtZero: true } }
-            }
-          });
-
-          const note = el(`<div class="mt-3 text-sm text-slate-300"><span class="font-semibold">Insight:</span> Growth lifts baseline; higher seasonality increases oscillations.</div>`);
-          demoViz.appendChild(note);
-          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3 });
-        }
-      },
-
-      cyber: {
-        name: 'Cybersecurity',
-        desc: 'Animated rings with threat pulse & focus.',
-        renderControls() {
-          demoControls.innerHTML = '';
-          demoControls.appendChild(el(`
-            <div class="rounded-lg border border-slate-800 bg-slate-900 p-3 space-y-3">
-              <div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm">Threat level</span>
-                  <span id="cyThreatLbl" class="text-xs text-slate-400">35</span>
-                </div>
-                <input id="cyThreat" type="range" min="0" max="100" value="35" class="w-full accent-teal-500">
-              </div>
-              <div>
-                <span class="text-sm">Focus layer</span>
-                <select id="cyLayer" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-sm">
-                  <option value="1">Perimeter</option>
-                  <option value="2">Network</option>
-                  <option value="3" selected>Endpoint</option>
-                  <option value="4">Identity</option>
-                  <option value="5">Data</option>
-                </select>
-              </div>
-            </div>
-          `));
-          $('#cyThreat').addEventListener('input', e => { $('#cyThreatLbl').textContent = e.target.value; demos.cyber.renderViz(); });
-          $('#cyLayer').addEventListener('change', demos.cyber.renderViz);
-        },
-        renderViz() {
-          clearViz();
-          const threat = parseInt($('#cyThreat').value, 10);
-          const focusLayer = parseInt($('#cyLayer').value, 10);
-
-          const host = el(`<div class="relative w-full aspect-square flex items-center justify-center"></div>`);
-          demoViz.appendChild(host);
-
-          const size = 320, cx = size/2, cy = size/2;
-          const svg = el(`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"></svg>`);
-          host.appendChild(svg);
-
-          const layers = [
-            { r: 70,  label:'Perimeter' },
-            { r: 95,  label:'Network' },
-            { r: 120, label:'Endpoint' },
-            { r: 145, label:'Identity' },
-            { r: 170, label:'Data' },
-          ];
-
-          layers.forEach((layer, i) => {
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', layer.r);
-            circle.setAttribute('fill','none');
-            const active = (i+1) === focusLayer;
-            const color = active ? '#22d3ee' : '#334155';
-            circle.setAttribute('stroke', color);
-            circle.setAttribute('stroke-width', active ? 7 : 3);
-            circle.style.cursor = 'pointer';
-
-            circle.addEventListener('mouseenter', () => gsap.to(circle, { attr: { 'stroke-width': active ? 10 : 5 }, duration: .2 }));
-            circle.addEventListener('mouseleave', () => gsap.to(circle, { attr: { 'stroke-width': active ? 7 : 3 }, duration: .2 }));
-            circle.addEventListener('click', () => {
-              const tip = el(`<div class="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-2 rounded bg-slate-800 border border-slate-700 text-sm">${layer.label}: case note — MFA blocked credential stuffing.</div>`);
-              host.appendChild(tip);
-              gsap.fromTo(tip, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .25 });
-              setTimeout(() => gsap.to(tip, { opacity: 0, y: 8, duration: .3, onComplete: () => tip.remove() }), 1800);
-            });
-
-            svg.appendChild(circle);
-          });
-
-          // Threat pulse
-          const pulseDot = el(`<div class="absolute inset-0 flex items-center justify-center"><div class="h-3 w-3 rounded-full bg-red-500 shadow"></div></div>`);
-          host.appendChild(pulseDot);
-          const speed = Math.max(.4, 2.2 - (threat/60));
-          gsap.to(pulseDot.firstChild, { scale: 1.9, opacity: .25, repeat: -1, yoyo: true, duration: speed });
-
-          const legend = el(`<div class="mt-4 text-sm text-slate-300"><span class="font-semibold">Threat:</span> ${threat} • <span class="font-semibold">Focus:</span> Layer ${focusLayer}</div>`);
-          demoViz.appendChild(legend);
-
-          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3 });
-        }
-      },
-
-      fullstack: {
-        name: 'Full‑Stack Dev',
-        desc: 'Mini stateful UI with chart reflecting interactions.',
-        renderControls() {
-          demoControls.innerHTML = '';
-          demoControls.appendChild(el(`
-            <div class="rounded-lg border border-slate-800 bg-slate-900 p-3 space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-sm">Items loaded</span>
-                <span id="fsCountLbl" class="text-xs text-slate-400">3</span>
-              </div>
-              <input id="fsCount" type="range" min="1" max="10" value="3" class="w-full accent-teal-500">
-              <button id="fsFetch" class="ripple w-full px-3 py-2 rounded bg-teal-600 hover:bg-teal-500 text-slate-900 font-semibold">Simulate fetch</button>
-            </div>
-          `));
-          $('#fsCount').addEventListener('input', e => { $('#fsCountLbl').textContent = e.target.value; demos.fullstack.renderViz(); });
-          $('#fsFetch').addEventListener('click', () => {
-            const toast = el(`<div class="fixed inset-x-0 top-20 z-50 flex justify-center"><div class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-sm">Fetching API...</div></div>`);
-            document.body.appendChild(toast);
-            gsap.fromTo(toast, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: .2 });
-            setTimeout(() => {
-              toast.remove();
-              demos.fullstack.renderViz(true);
-            }, 800);
-          });
-        },
-        renderViz(fetchBoost=false) {
-          clearViz();
-          const count = parseInt($('#fsCount').value, 10);
-          const items = Array.from({ length: count }, (_, i) => ({
-            id: i + 1, name: 'Item ' + (i + 1), value: Math.round(40 + Math.random() * 60 + (fetchBoost ? 20 : 0))
-          }));
-
-          const ui = el('<div class="grid sm:grid-cols-2 gap-4"></div>');
-          const list = el('<div class="rounded-lg border border-slate-800 bg-slate-900 p-3"><h4 class="font-semibold mb-2">List</h4><div id="fsList" class="space-y-2"></div></div>');
-          const chartWrap = el('<div class="rounded-lg border border-slate-800 bg-slate-900 p-3"><h4 class="font-semibold mb-2">Chart</h4><canvas id="fsChart" class="w-full h-56"></canvas></div>');
-
-          ui.append(list, chartWrap);
-          demoViz.appendChild(ui);
-
-          const fsList = $('#fsList');
-          items.forEach(it => fsList.appendChild(el(`<div class="flex items-center justify-between px-2 py-1 rounded bg-slate-800 border border-slate-700"><span>${it.name}</span><span class="text-teal-300">${it.value}</span></div>`)));
-
-          const ctx = $('#fsChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: items.map(i => i.name),
-              datasets: [{ label: 'Value', data: items.map(i => i.value), backgroundColor: 'rgba(34,211,238,.35)', borderColor: '#22d3ee' }]
-            },
-            options: {
-              plugins: { legend: { labels: { color: '#cbd5e1' } } },
-              scales: { x: { ticks: { color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' }, beginAtZero: true } }
-            }
-          });
-
-          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3 });
-        }
-      }
-    };
-
-    // Card routing
-    $$('#concepts [data-demo]').forEach(card => {
-      card.addEventListener('click', () => {
-        const key = card.dataset.demo;
-        const d = demos[key];
-        if (!d) return;
-        demoTitle.textContent = d.name;
-        demoSubtitle.textContent = d.desc;
-        d.renderControls();
-        d.renderViz();
-        gsap.fromTo(card, { y: 0 }, { y: -3, duration: .12, yoyo: true, repeat: 1 });
-        gsap.to('#detail', { scrollTo: { y: '#detail', offsetY: 80 }, duration: .2, ease: 'power1.out' });
-      });
-    });
-
-    // Reset
-    $('#resetDemo').addEventListener('click', () => {
-      demoTitle.textContent = 'Pick a demo to begin';
-      demoSubtitle.textContent = 'Highly interactive visualizations with smooth micro‑interactions';
-      demoControls.innerHTML = '';
-      clearViz();
-      demoViz.innerHTML = '<div class="absolute inset-0 flex items-center justify-center text-slate-500">Select any concept card to load a live demo here.</div>';
-      const toast = el(`<div class="fixed inset-x-0 top-20 z-50 flex justify-center"><div class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-sm">Reset done.</div></div>`);
-      document.body.appendChild(toast);
-      gsap.fromTo(toast, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: .2 });
-      setTimeout(() => toast.remove(), 1200);
-    });
-
-    // Entrance animations
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.from('.glass', { opacity: 0, y: 20, stagger: .08, duration: .45, ease: 'power1.out' });
-    gsap.from('#concepts', { scrollTrigger: { trigger: '#concepts', start: 'top 80%' }, opacity: 0, y: 24, duration: .4 });
-    gsap.from('#detail', { scrollTrigger: { trigger: '#detail', start: 'top 80%' }, opacity: 0, y: 24, duration: .4 });
-  </script>
-</body>
-</html>
+        <article class="card reveal" aria-labelledby="f4">
