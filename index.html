@@ -1,443 +1,420 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Margesh — Modern Landing</title>
-  <meta name="description" content="A clean, modern landing page — redesigned for clarity, accessibility and visual impact." />
-  <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --muted:#98a0b3;
-      --glass: rgba(255,255,255,0.04);
-      --accent:#6ee7b7;
-      --accent-2:#7c6cff;
-      --white: #e6eef8;
-      --radius:14px;
-      --max-width:1100px;
-      --glass-border: rgba(255,255,255,0.06);
-      color-scheme: dark;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(124,108,255,0.08), transparent 6%),
-        radial-gradient(1000px 500px at 90% 80%, rgba(110,231,183,0.03), transparent 6%),
-        var(--bg);
-      color:var(--white);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-      padding:40px 20px;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-    }
-
-    .container{
-      width:100%;
-      max-width:var(--max-width);
-      margin:0 auto;
-    }
-
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:28px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:var(--white);
-    }
-    .logo {
-      width:44px;height:44px;border-radius:10px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      box-shadow: 0 6px 22px rgba(124,108,255,0.12), inset 0 -6px 20px rgba(255,255,255,0.04);
-      font-weight:700;font-family:"JetBrains Mono";font-size:16px;
-    }
-    nav{
-      display:flex;
-      align-items:center;
-      gap:18px;
-    }
-    nav a{
-      color:var(--muted);
-      text-decoration:none;
-      font-weight:600;
-      font-size:0.95rem;
-      padding:8px 10px;
-      border-radius:10px;
-    }
-    nav a:hover{ color:var(--white); background:var(--glass); border:1px solid var(--glass-border) }
-
-    .cta{
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#071223;
-      padding:9px 14px;
-      border-radius:10px;
-      font-weight:700;
-      text-decoration:none;
-      box-shadow:0 8px 26px rgba(124,108,255,0.12);
-    }
-
-    .hero{
-      display:grid;
-      grid-template-columns:1fr 420px;
-      gap:28px;
-      align-items:center;
-      margin-bottom:40px;
-    }
-
-    .hero-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:var(--radius);
-      padding:36px;
-      box-shadow: 0 10px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-      border:1px solid var(--glass-border);
-    }
-
-    .hero h1{
-      margin:0 0 12px 0;
-      font-size:clamp(1.6rem, 3.6vw, 2.4rem);
-      line-height:1.02;
-      letter-spacing:-0.02em;
-      color:var(--white);
-    }
-    .lead{
-      color:var(--muted);
-      margin:0 0 20px 0;
-      font-size:1rem;
-    }
-    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
-
-    .stat-row{
-      display:flex;
-      gap:14px;
-      margin-top:22px;
-    }
-    .stat{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-      padding:12px 14px;border-radius:10px;
-      min-width:92px;text-align:center;
-      border:1px solid rgba(255,255,255,0.02);
-    }
-    .stat b{display:block;font-size:1.05rem;color:var(--white)}
-    .stat span{font-size:0.82rem;color:var(--muted)}
-
-    .visual {
-      padding:18px;
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(124,108,255,0.06), rgba(110,231,183,0.03));
-      border:1px solid rgba(255,255,255,0.03);
-      min-height:280px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      overflow:hidden;
-    }
-    .device{
-      width:220px;height:420px;border-radius:24px;
-      background:linear-gradient(180deg,#071223, #081426);
-      box-shadow: 0 20px 60px rgba(2,6,23,0.6), inset 0 -12px 30px rgba(124,108,255,0.03);
-      border:1px solid rgba(255,255,255,0.04);
-      display:flex;flex-direction:column;
-      padding:16px;gap:10px;
-    }
-    .device .top{
-      height:10px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
-    }
-    .device .screen{
-      flex:1;border-radius:12px;background:linear-gradient(180deg,#072034,#0b2030);
-      padding:12px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;
-      color:var(--muted);
-      font-size:0.85rem;
-    }
-    .pill{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px; font-weight:600}
-    .device footer{height:12px;border-radius:6px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent)}
-
-    .features{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:36px;
-    }
-    .card{
-      background:var(--card);
-      padding:20px;border-radius:12px;
-      border:1px solid var(--glass-border);
-      transition:transform .25s ease, box-shadow .25s ease;
-      cursor:default;
-    }
-    .card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 20px 50px rgba(2,6,23,0.6);
-    }
-    .card h3{margin:0 0 8px 0;font-size:1.05rem}
-    .card p{margin:0;color:var(--muted);font-size:0.95rem}
-
-    .icon{
-      width:44px;height:44px;border-radius:10px;
-      display:grid;place-items:center;margin-bottom:12px;
-      background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.02);
-      font-weight:700;color:var(--white);
-    }
-
-    .cta-band{
-      margin:28px 0;
-      padding:18px;border-radius:14px;
-      display:flex;align-items:center;justify-content:space-between;gap:16px;
-      background:linear-gradient(90deg, rgba(124,108,255,0.06), rgba(110,231,183,0.02));
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .cta-band .text{color:var(--white);font-weight:700}
-    .cta-band .sub{color:var(--muted);font-weight:500;font-size:0.95rem}
-
-    form{
-      display:grid;grid-template-columns:1fr 1fr;gap:12px;
-    }
-    label{font-size:0.85rem;color:var(--muted)}
-    input, textarea {
-      background:transparent;border:1px solid rgba(255,255,255,0.04);
-      padding:12px;border-radius:10px;color:var(--white);
-      outline:none;font-size:0.95rem;
-    }
-    textarea{grid-column:1/-1;min-height:120px;resize:vertical}
-    .form-footer{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .btn-ghost{
-      background:transparent;color:var(--accent);border:1px dashed rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;font-weight:700;text-decoration:none;
-    }
-
-    footer{
-      margin-top:26px;color:var(--muted);font-size:0.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px;
-    }
-
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;align-items:stretch}
-      .features{grid-template-columns:repeat(2,1fr)}
-      form{grid-template-columns:1fr}
-      .device{width:180px;height:340px}
-    }
-    @media (max-width:640px){
-      header{flex-direction:column;align-items:flex-start;gap:14px}
-      nav{display:none}
-      .mobile-nav-toggle{display:inline-flex}
-      .features{grid-template-columns:1fr}
-      body{padding:18px}
-    }
-
-    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);}
-    .reveal.revealed{opacity:1;transform:none}
-
-    .muted{color:var(--muted);font-size:0.9rem}
-    .small{font-size:0.85rem}
-    a.focusable:focus{outline:3px solid rgba(124,108,255,0.16);outline-offset:3px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Work by Margesh</title>
+    <!-- Load Tailwind CSS for utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Chart.js for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <style>
+        /* Custom scrollbar and smooth behavior */
+        html { scroll-behavior: smooth; }
+        /* Set default font to Inter */
+        body { font-family: 'Inter', sans-serif; background-color: #0F172A; }
+        
+        /* Custom shadow for cards */
+        .concept-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .concept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3), 0 4px 6px -4px rgba(34, 197, 94, 0.3);
+        }
+        /* Style for the Defense-in-Depth visualization rings */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid;
+            transition: all 0.5s ease-in-out;
+        }
+    </style>
 </head>
-<body>
-  <div class="container" role="main">
-    <header>
-      <a class="brand" href="#" aria-label="Homepage">
-        <span class="logo" aria-hidden="true">MP</span>
-        <div>
-          <div style="font-weight:800">Margesh</div>
-          <div class="small muted">Design · Frontend</div>
-        </div>
-      </a>
-      <nav aria-label="Main navigation">
-        <a class="focusable" href="#features">Features</a>
-        <a class="focusable" href="#contact">Contact</a>
-        <a class="cta focusable" href="#contact">Get started</a>
-      </nav>
-      <button class="mobile-nav-toggle focusable" aria-expanded="false" aria-controls="mobileMenu" style="display:none;background:transparent;border:none;color:var(--muted)">
-        ☰
-      </button>
-    </header>
-
-    <section class="hero" aria-labelledby="hero-heading">
-      <div class="hero-card reveal">
-        <h1 id="hero-heading">Design-forward, fast, and accessible websites — built with intention.</h1>
-        <p class="lead">A modern UI template with subtle motion, clear hierarchy and micro-interactions. Swap in your content and deploy — or use this as a design system starter.</p>
-
-        <div class="hero-ctas">
-          <a class="cta focusable" href="#contact">Start a project</a>
-          <a class="btn-ghost focusable" href="#features">See features</a>
-        </div>
-
-        <div class="stat-row" aria-hidden="true">
-          <div class="stat">
-            <b>1.2s</b><span>Avg load</span>
-          </div>
-          <div class="stat">
-            <b>99%</b><span>Accessibility</span>
-          </div>
-          <div class="stat">
-            <b>24/7</b><span>Support</span>
-          </div>
-        </div>
-      </div>
-
-      <aside class="visual reveal" aria-hidden="true">
-        <div class="device" role="img" aria-label="Interface preview">
-          <div class="top"></div>
-          <div class="screen">
-            <div class="pill">Portfolio · Latest</div>
-            <div style="text-align:center; padding:8px;">
-              <h4 style="margin:6px 0 4px 0">Minimal Dashboard</h4>
-              <p class="muted small" style="margin:0">Clean metrics, elegant typography, and responsive layout.</p>
+<body class="text-slate-100 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-sm shadow-xl border-b border-green-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="text-2xl font-extrabold text-green-400">TEST WORK</a>
+                <div class="flex space-x-4">
+                    <a href="#concepts" class="text-sm font-medium hover:text-green-400 transition">Concepts</a>
+                    <a href="#about" class="text-sm font-medium hover:text-green-400 transition">About</a>
+                    <a href="mailto:margesh@example.com" class="text-sm font-medium bg-green-600 px-3 py-1 rounded-full hover:bg-green-700 transition">Contact</a>
+                </div>
             </div>
-            <div style="display:flex;gap:8px; align-items:center;">
-              <div class="pill">UI</div>
-              <div class="pill">UX</div>
-              <div class="pill">Frontend</div>
-            </div>
-          </div>
-          <footer></footer>
         </div>
-      </aside>
-    </section>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- 1. Hero Section (Interactive Tagline) -->
+        <section id="hero" class="text-center py-12 md:py-24">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">
+                <span class="text-slate-200">Hello, I'm Margesh.</span>
+            </h1>
+            <p class="text-xl md:text-3xl text-slate-400 font-light max-w-4xl mx-auto">
+                <span class="text-green-400 font-semibold mr-2">I build</span>
+                <span id="tagline-spinner" class="font-mono text-green-300 bg-slate-800 px-2 py-1 rounded-md inline-block min-w-[300px]"></span>
+                <span class="text-green-400 font-semibold ml-2">solutions.</span>
+            </p>
+            <div class="mt-10">
+                <a href="#concepts" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-slate-900 bg-green-500 hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                    Explore Concepts ↓
+                </a>
+            </div>
+        </section>
+        <!-- 2. Concept Grid: Main Portfolio Overview -->
+        <section id="concepts" class="pt-16 pb-8">
+            <h2 class="text-4xl font-bold mb-10 text-center text-green-400">Concept Showroom</h2>
+            <p class="text-center text-slate-400 mb-12 max-w-3xl mx-auto">
+                Select a high-demand domain below to load a live, interactive demonstration of a core technical principle directly into the detail panel.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- 1. AI Card -->
+                <div onclick="loadConcept('ai')" data-concept="ai" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
+                    <div class="text-3xl mb-2">🤖</div>
+                    <h3 class="text-xl font-bold text-slate-50 mb-1">Artificial Intelligence</h3>
+                    <p class="text-slate-400 text-sm">LLMs, Automation, Predictive Models.</p>
+                </div>
+                <!-- 2. Cloud & DevOps Card (Interactive Demo) -->
+                <div onclick="loadConcept('cloud_devops')" data-concept="cloud_devops" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
+                    <div class="text-3xl mb-2">☁️</div>
+                    <h3 class="text-xl font-bold text-slate-50 mb-1">Cloud & DevOps</h3>
+                    <p class="text-slate-400 text-sm">Containerization, IaC, Scalability.</p>
+                </div>
+                <!-- 3. Data Science Card (Interactive Demo) -->
+                <div onclick="loadConcept('data_science')" data-concept="data_science" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
+                    <div class="text-3xl mb-2">📊</div>
+                    <h3 class="text-xl font-bold text-slate-50 mb-1">Data Science</h3>
+                    <p class="text-slate-400 text-sm">Visualization, ETL, Business Insight.</p>
+                </div>
+                <!-- 4. Cybersecurity Card (Interactive Demo) -->
+                <div onclick="loadConcept('cybersecurity')" data-concept="cybersecurity" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
+                    <div class="text-3xl mb-2">🔒</div>
+                    <h3 class="text-xl font-bold text-slate-50 mb-1">Cybersecurity</h3>
+                    <p class="text-slate-400 text-sm">Defense-in-Depth, Threat Modeling.</p>
+                </div>
+                <!-- 5. Full-Stack Dev Card -->
+                <div onclick="loadConcept('full_stack')" data-concept="full_stack" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
+                    <div class="text-3xl mb-2">💻</div>
+                    <h3 class="text-xl font-bold text-slate-50 mb-1">Full-Stack Dev</h3>
+                    <p class="text-slate-400 text-sm">APIs, Frontend Architecture, State.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 3. Active Detail Panel (Dynamic Content Area) -->
+        <section id="detail-panel" class="mt-16 bg-slate-900 border border-green-700/50 rounded-xl p-8 shadow-2xl min-h-[600px] flex items-center justify-center flex-col">
+            <h2 class="text-4xl font-bold text-green-500 mb-4">Start Exploring!</h2>
+            <p class="text-slate-400 text-lg">Click any of the Concept Cards above to load an interactive demo here.</p>
+        </section>
+        <!-- 4. About & Contact Footer -->
+        <section id="about" class="mt-24 pt-12 border-t border-slate-700 text-center">
+            <h2 class="text-3xl font-bold text-green-400 mb-4">About Margesh</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-8">
+                I am a focused IT professional dedicated to turning complex technological concepts into functional, scalable, and understandable solutions. This portfolio is a demonstration of my ability to apply coding fundamentals to high-level system design.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <a href="https://linkedin.com/in/margesh" target="_blank" class="text-slate-400 hover:text-green-500 transition">LinkedIn</a>
+                <a href="https://github.com/margesh" target="_blank" class="text-slate-400 hover:text-green-500 transition">GitHub</a>
+                <a href="mailto:margesh@example.com" class="text-slate-400 hover:text-green-500 transition">Email</a>
+            </div>
+            <p class="text-sm text-slate-600 mt-12">&copy; 2025 Test Work by Margesh. Built with Interactivity in Mind.</p>
+        </section>
+    </main>
+    <script>
+        // --- Configuration & Global State ---
+        const DETAIL_PANEL = document.getElementById('detail-panel');
+        const TAGLINE_SPINNER = document.getElementById('tagline-spinner');
+        let activeChart = null; // To hold the active Chart.js instance
+        // The core data structure for the portfolio.
+        // Each key corresponds to the data-concept attribute on the cards.
+        const concepts = {
+            'ai': {
+                title: "Artificial Intelligence: Coming Soon",
+                description: "This section will feature a customized, task-specific AI Agent (e.g., a Kubernetes Command Helper Bot) to demonstrate prompt engineering and focused LLM usage. Stay tuned!",
+                content: renderComingSoon, // Function pointer
+            },
+            'cloud_devops': {
+                title: "Cloud & DevOps: Containerization Cost-Benefit Analyzer",
+                description: "A demonstration of infrastructure efficiency, visualizing the TCO (Total Cost of Ownership) comparison between traditional Monolithic deployment and modern Containerized Microservices.",
+                content: renderCloudCostChart, // Function pointer
+            },
+            'data_science': {
+                title: "Data Science: Real-Time Data Filtering Dashboard",
+                description: "An interactive Chart.js application showing how dynamic user input (e.g., filtering) is used to update visualizations in real-time, key for business intelligence dashboards.",
+                content: renderDataFilterDashboard, // Function pointer
+            },
+            'cybersecurity': {
+                title: "Cybersecurity: Defense-in-Depth Model",
+                description: "A conceptual visualization of the layered security model, illustrating how multiple defensive mechanisms protect assets at different stages of attack.",
+                content: renderCybersecurityDiagram, // Function pointer
+            },
+            'full_stack': {
+                title: "Full-Stack Development: Coming Soon",
+                description: "Future projects here will include a complex state management demo (e.g., a simple collaborative editor) or an interactive API endpoint tester, showcasing both frontend and backend logic flow.",
+                content: renderComingSoon, // Function pointer
+            },
+        };
+        // --- Core Application Logic ---
+        /**
+         * The central function that loads and renders the selected concept demo.
+         * @param {string} key - The key from the 'concepts' object.
+         */
+        function loadConcept(key) {
+            const concept = concepts[key];
+            if (!concept) return console.error('Concept not found:', key);
+            // 1. Clear previous content and destroy the old chart instance
+            DETAIL_PANEL.innerHTML = '';
+            if (activeChart) {
+                activeChart.destroy();
+                activeChart = null;
+            }
+            // 2. Build the basic container structure
+            const container = document.createElement('div');
+            container.className = 'w-full transition-opacity duration-500 ease-in';
+            container.innerHTML = `
+                <h3 class="text-3xl font-bold text-green-400 mb-3">${concept.title}</h3>
+                <p class="text-md text-slate-400 mb-8 max-w-4xl">${concept.description}</p>
+                <div id="concept-demo-area" class="w-full bg-slate-800 p-6 rounded-lg shadow-xl border border-slate-700">
+                    <!-- Dynamic content loads here -->
+                </div>
+            `;
+            DETAIL_PANEL.appendChild(container);
+            // 3. Call the specific render function to populate the demo area
+            const demoArea = document.getElementById('concept-demo-area');
+            if (concept.content) {
+                concept.content(demoArea);
+            }
+            // Update active state in the card grid
+            document.querySelectorAll('.concept-card').forEach(card => {
+                card.classList.remove('ring-green-500', 'ring-offset-2', 'ring-offset-slate-900');
+                if (card.dataset.concept === key) {
+                    card.classList.add('ring-green-500', 'ring-offset-2', 'ring-offset-slate-900');
+                }
+            });
+            // Scroll to the detail panel on mobile/small screens
+            if (window.innerWidth < 1024) {
+                 DETAIL_PANEL.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        // --- Concept Rendering Functions (Specific Demos) ---
+        /**
+         * Renders a placeholder for concepts under development.
+         */
+        function renderComingSoon(demoArea) {
+            demoArea.innerHTML = `
+                <div class="p-12 text-center">
+                    <div class="text-6xl mb-4 animate-pulse">🚧</div>
+                    <p class="text-xl text-slate-500">This concept is currently in development. Check back soon!</p>
+                </div>
+            `;
+        }
 
-    <section id="features" aria-labelledby="features-head">
-      <h2 id="features-head" style="margin:0 0 14px 0">What you get</h2>
-      <p class="muted small" style="margin:0 0 18px 0">A design-forward template with best-practice accessibility, responsive layout, and lightweight code.</p>
+        // --- 1. Cloud & DevOps Demo ---
+        function renderCloudCostChart(demoArea) {
+            demoArea.innerHTML = `
+                <h4 class="text-xl font-semibold mb-4 text-slate-50">TCO Comparison: Monolith vs. Containers</h4>
+                <canvas id="cloudCostChart" class="max-h-[400px]"></canvas>
+                <p class="mt-4 text-sm text-slate-500">This chart simulates a 1-year TCO. Containerization reduces OS and Management Overhead, leading to a lower overall cost.</p>
+            `;
+            const ctx = document.getElementById('cloudCostChart').getContext('2d');
+            activeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Hardware/Compute', 'OS Licensing & Patching', 'Management Overhead', 'Deployment Time'],
+                    datasets: [
+                        {
+                            label: 'Monolithic (VM)',
+                            data: [8000, 3000, 4500, 2000],
+                            backgroundColor: 'rgba(239, 68, 68, 0.8)', // Red
+                        },
+                        {
+                            label: 'Containerized (K8s)',
+                            data: [7500, 500, 1500, 500],
+                            backgroundColor: 'rgba(52, 211, 153, 0.8)', // Green
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Cost/Effort (USD & Hours Equivalent)', color: '#94A3B8' },
+                            ticks: { color: '#94A3B8' },
+                            grid: { color: '#334155' }
+                        },
+                        x: {
+                            ticks: { color: '#94A3B8' },
+                            grid: { color: '#334155' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#E2E8F0' } },
+                        title: { display: false }
+                    }
+                }
+            });
+        }
 
-      <div class="features">
-        <article class="card reveal" aria-labelledby="f1">
-          <div class="icon">A</div>
-          <h3 id="f1">Accessible by default</h3>
-          <p>Semantic markup, focus states, aria labels and good color contrast so your site works for everyone.</p>
-        </article>
-        <article class="card reveal" aria-labelledby="f2">
-          <div class="icon">R</div>
-          <h3 id="f2">Responsive & fast</h3>
-          <p>Fluid grid, responsive images and minimal dependencies to keep load times down on mobile.</p>
-        </article>
-        <article class="card reveal" aria-labelledby="f3">
-          <div class="icon">M</div>
-          <h3 id="f3">Micro-interactions</h3>
-          <p>Subtle motion for delight: hover states, scroll reveals, and tiny transitions that make the UI feel alive.</p>
-        </article>
-        <article class="card reveal" aria-labelledby="f4">
-          <div class="icon">T</div>
-          <h3 id="f4">Design tokens</h3>
-          <p>Colors and spacing defined as variables so customization is fast — a practical starting point for a design system.</p>
-        </article>
-        <article class="card reveal" aria-labelledby="f5">
-          <div class="icon">C</div>
-          <h3 id="f5">Clean code</h3>
-          <p>Readable, semantic HTML and a single CSS file — easy to maintain and extend.</p>
-        </article>
-        <article class="card reveal" aria-labelledby="f6">
-          <div class="icon">S</div>
-          <h3 id="f6">Deploy-ready</h3>
-          <p>Drop this file into GitHub Pages, Netlify, or any static host and you’re live.</p>
-        </article>
-      </div>
-    </section>
+        // --- 2. Data Science Demo ---
+        function renderDataFilterDashboard(demoArea) {
+            demoArea.innerHTML = `
+                <h4 class="text-xl font-semibold mb-4 text-slate-50">Sales Performance: Dynamic Filtering</h4>
+                <div class="flex items-center space-x-4 mb-4">
+                    <span class="text-slate-400">Filter Region:</span>
+                    <button id="filter-all" class="px-3 py-1 bg-green-600 rounded-full text-sm hover:bg-green-700 transition">All</button>
+                    <button id="filter-north" class="px-3 py-1 bg-slate-700 rounded-full text-sm hover:bg-slate-600 transition">North</button>
+                    <button id="filter-south" class="px-3 py-1 bg-slate-700 rounded-full text-sm hover:bg-slate-600 transition">South</button>
+                </div>
+                <canvas id="dataFilterChart" class="max-h-[400px]"></canvas>
+            `;
+            const dataSets = {
+                all: [120, 190, 30, 500, 200, 300, 450, 600, 800, 750, 900, 1100],
+                north: [50, 80, 15, 220, 90, 130, 200, 300, 420, 380, 500, 650],
+                south: [70, 110, 15, 280, 110, 170, 250, 300, 380, 370, 400, 450],
+            };
+            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const ctx = document.getElementById('dataFilterChart').getContext('2d');
+            activeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Sales (All Regions)',
+                        data: dataSets.all,
+                        borderColor: '#34D399', // Green
+                        backgroundColor: 'rgba(52, 211, 153, 0.2)',
+                        tension: 0.3,
+                        pointBackgroundColor: '#34D399',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Revenue (K USD)', color: '#94A3B8' },
+                            ticks: { color: '#94A3B8' },
+                            grid: { color: '#334155' }
+                        },
+                        x: {
+                            ticks: { color: '#94A3B8' },
+                            grid: { color: '#334155' }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+            // Function to handle filter button click and update chart
+            const updateChart = (region) => {
+                const buttonMap = {
+                    'all': document.getElementById('filter-all'),
+                    'north': document.getElementById('filter-north'),
+                    'south': document.getElementById('filter-south')
+                };
+                // Update data
+                activeChart.data.datasets[0].data = dataSets[region];
+                activeChart.data.datasets[0].label = `Total Sales (${region.charAt(0).toUpperCase() + region.slice(1)} Region)`;
+                activeChart.update();
+                // Update button styles
+                Object.keys(buttonMap).forEach(key => {
+                    buttonMap[key].classList.remove('bg-green-600', 'hover:bg-green-700');
+                    buttonMap[key].classList.add('bg-slate-700', 'hover:bg-slate-600');
+                });
+                buttonMap[region].classList.remove('bg-slate-700', 'hover:bg-slate-600');
+                buttonMap[region].classList.add('bg-green-600', 'hover:bg-green-700');
+            };
+            // Attach event listeners
+            document.getElementById('filter-all').addEventListener('click', () => updateChart('all'));
+            document.getElementById('filter-north').addEventListener('click', () => updateChart('north'));
+            document.getElementById('filter-south').addEventListener('click', () => updateChart('south'));
+        }
+        // --- 3. Cybersecurity Demo ---
+        function renderCybersecurityDiagram(demoArea) {
+            demoArea.innerHTML = `
+                <h4 class="text-xl font-semibold mb-4 text-slate-50">Visualizing Layered Security (Defense-in-Depth)</h4>
+                <div class="relative w-full h-[400px] flex items-center justify-center">
+                    <div id="ring-container" class="relative flex items-center justify-center w-full h-full">
+                        <!-- Rings will be generated here -->
+                    </div>
+                </div>
+            `;
+            const ringContainer = document.getElementById('ring-container');
+            const layers = [
+                { name: 'Perimeter (Firewall)', size: '350px', color: '#6366F1', delay: 0.1 }, // Indigo
+                { name: 'Network (Segmentation)', size: '280px', color: '#3B82F6', delay: 0.2 }, // Blue
+                { name: 'Host (Endpoint Protection)', size: '210px', color: '#F59E0B', delay: 0.3 }, // Amber
+                { name: 'Application (Input Validation)', size: '140px', color: '#EC4899', delay: 0.4 }, // Pink
+                { name: 'Data (Encryption)', size: '70px', color: '#22C55E', delay: 0.5 } // Green (The Core Asset)
+            ];
+            layers.forEach((layer, index) => {
+                const ring = document.createElement('div');
+                ring.className = 'ring text-sm font-medium opacity-0';
+                ring.style.width = layer.size;
+                ring.style.height = layer.size;
+                ring.style.borderColor = layer.color;
+                ring.style.zIndex = layers.length - index; // Ensure inner rings are on top
+                ring.style.animation = `fadeIn 0.5s ease-out forwards ${layer.delay}s`;
+                // Add text only to specific layers for clarity
+                if (index % 2 === 0 || index === layers.length - 1) {
+                    const text = document.createElement('span');
+                    text.className = 'absolute';
+                    text.style.color = layer.color;
+                    text.textContent = layer.name;
+                    // Position text outside the ring for clarity
+                    if (index === 0) text.style.top = '-20px';
+                    else if (index === 2) text.style.left = 'calc(100% + 10px)';
+                    else if (index === 4) text.style.fontWeight = 'bold';
+                    ring.appendChild(text);
+                }
+                ringContainer.appendChild(ring);
+            });
+            // Inject keyframes for the fade-in effect
+            if (!document.getElementById('fadeInKeyframes')) {
+                const style = document.createElement('style');
+                style.id = 'fadeInKeyframes';
+                style.textContent = `
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: scale(0.5); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
 
-    <section class="cta-band reveal" aria-hidden="true" style="margin-top:18px">
-      <div>
-        <div class="text">Want this tailored to your brand?</div>
-        <div class="sub">Color palette, type system, and components customised — fast turnaround.</div>
-      </div>
-      <div style="display:flex;gap:10px">
-        <a class="cta focusable" href="#contact">Let's customize</a>
-        <a class="btn-ghost focusable" href="#features">Examples</a>
-      </div>
-    </section>
-
-    <section id="contact" aria-labelledby="contact-head" style="margin-top:28px;">
-      <h2 id="contact-head" style="margin:0 0 12px 0">Start a project</h2>
-      <p class="muted small" style="margin:0 0 14px 0">Tell me about your goals and timeline — or use the form below to request a quote.</p>
-
-      <div class="hero-card reveal" style="margin-top:12px;">
-        <form id="contactForm" autocomplete="on" novalidate>
-          <div>
-            <label for="name">Full name</label>
-            <input id="name" name="name" type="text" placeholder="Your name" required>
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@domain.com" required>
-          </div>
-          <div>
-            <label for="company">Company (optional)</label>
-            <input id="company" name="company" type="text" placeholder="Company name">
-          </div>
-          <div>
-            <label for="budget">Estimated budget</label>
-            <input id="budget" name="budget" type="text" placeholder="e.g., $2k — $10k">
-          </div>
-          <div>
-            <label for="timeline">Timeline</label>
-            <input id="timeline" name="timeline" type="text" placeholder="e.g., 1–2 months">
-          </div>
-          <div>
-            <label for="message">Project summary</label>
-            <textarea id="message" name="message" placeholder="Short summary of the project" required></textarea>
-          </div>
-
-          <div class="form-footer">
-            <button type="submit" class="cta focusable">Send request</button>
-            <a href="#" class="btn-ghost focusable">Book a call</a>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <footer>
-      <div>&copy; <span id="year"></span> Margesh — All rights reserved</div>
-      <div class="muted">Built with care · Accessible · Lightweight</div>
-    </footer>
-  </div>
-
-  <script>
-    (function(){
-      document.getElementById('year').textContent = new Date().getFullYear();
-      const reveals = document.querySelectorAll('.reveal');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-          }
+        // --- Initialization and Helper Functions ---
+        // Tagline text rotation
+        const taglines = [
+            "AI-Driven Solutions",
+            "Scalable Cloud Architecture",
+            "Real-time Data Insights",
+            "Secure DevOps Pipelines",
+            "Component-Based Frontend",
+        ];
+        let taglineIndex = 0;
+        function animateTagline() {
+            TAGLINE_SPINNER.classList.add('opacity-0');
+            setTimeout(() => {
+                TAGLINE_SPINNER.textContent = taglines[taglineIndex];
+                TAGLINE_SPINNER.classList.remove('opacity-0');
+                taglineIndex = (taglineIndex + 1) % taglines.length;
+            }, 300); // Wait for fade out
+            setTimeout(animateTagline, 3000); // Change every 3 seconds
+        }
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            animateTagline();
+            // Load a default concept on initial page load (optional, but good UX)
+            loadConcept('cloud_devops');
         });
-      }, {threshold:0.12});
-      reveals.forEach(r => observer.observe(r));
-      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-        reveals.forEach(r => {
-          r.style.transition = 'none';
-          r.classList.add('revealed');
-        });
-      }
-      const form = document.getElementById('contactForm');
-      form.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const name = form.name.value.trim()||'there';
-        const toast = document.createElement('div');
-        toast.textContent = `Thanks ${name}! Your request was received (demo).`;
-        toast.style.position='fixed';
-        toast.style.right='18px';
-        toast.style.bottom='18px';
-        toast.style.background='linear-gradient(90deg, rgba(124,108,255,0.14), rgba(110,231,183,0.08))';
-        toast.style.padding='12px 16px';
-        toast.style.borderRadius='10px';
-        toast.style.color='var(--white)';
-        toast.style.backdropFilter='blur(6px)';
-        toast.style.zIndex=9999;
-        document.body.appendChild(toast);
-        setTimeout(()=>toast.remove(), 4200);
-        form.reset();
-      });
-    })();
-  </script>
+    </script>
 </body>
 </html>
