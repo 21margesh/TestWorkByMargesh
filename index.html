@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Margesh — Modern Landing</title>
   <meta name="description" content="A clean, modern landing page — redesigned for clarity, accessibility and visual impact." />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* ===== Reset & base ===== */
     :root{
-      --bg:#0f1724;            /* deep page background */
+      --bg:#0f1724;
       --card:#0b1220;
       --muted:#98a0b3;
       --glass: rgba(255,255,255,0.04);
-      --accent:#6ee7b7;        /* mint accent */
-      --accent-2:#7c6cff;     /* violet accent */
+      --accent:#6ee7b7;
+      --accent-2:#7c6cff;
       --white: #e6eef8;
       --radius:14px;
       --max-width:1100px;
@@ -47,7 +44,6 @@
       margin:0 auto;
     }
 
-    /* ===== Top nav ===== */
     header{
       display:flex;
       align-items:center;
@@ -94,7 +90,6 @@
       box-shadow:0 8px 26px rgba(124,108,255,0.12);
     }
 
-    /* ===== Hero ===== */
     .hero{
       display:grid;
       grid-template-columns:1fr 420px;
@@ -139,7 +134,6 @@
     .stat b{display:block;font-size:1.05rem;color:var(--white)}
     .stat span{font-size:0.82rem;color:var(--muted)}
 
-    /* right column card (visual) */
     .visual {
       padding:18px;
       border-radius:12px;
@@ -152,7 +146,6 @@
       position:relative;
       overflow:hidden;
     }
-    /* fake phone / mockup */
     .device{
       width:220px;height:420px;border-radius:24px;
       background:linear-gradient(180deg,#071223, #081426);
@@ -173,7 +166,6 @@
     .pill{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px; font-weight:600}
     .device footer{height:12px;border-radius:6px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent)}
 
-    /* ===== Features grid ===== */
     .features{
       display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:36px;
     }
@@ -199,7 +191,6 @@
       font-weight:700;color:var(--white);
     }
 
-    /* ===== CTA band ===== */
     .cta-band{
       margin:28px 0;
       padding:18px;border-radius:14px;
@@ -210,7 +201,6 @@
     .cta-band .text{color:var(--white);font-weight:700}
     .cta-band .sub{color:var(--muted);font-weight:500;font-size:0.95rem}
 
-    /* ===== Contact ===== */
     form{
       display:grid;grid-template-columns:1fr 1fr;gap:12px;
     }
@@ -226,12 +216,10 @@
       background:transparent;color:var(--accent);border:1px dashed rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;font-weight:700;text-decoration:none;
     }
 
-    /* ===== Footer ===== */
     footer{
       margin-top:26px;color:var(--muted);font-size:0.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px;
     }
 
-    /* ===== Small screens ===== */
     @media (max-width:980px){
       .hero{grid-template-columns:1fr;align-items:stretch}
       .features{grid-template-columns:repeat(2,1fr)}
@@ -246,11 +234,9 @@
       body{padding:18px}
     }
 
-    /* ===== Simple reveal animation for elements ===== */
     .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);}
     .reveal.revealed{opacity:1;transform:none}
 
-    /* small helper */
     .muted{color:var(--muted);font-size:0.9rem}
     .small{font-size:0.85rem}
     a.focusable:focus{outline:3px solid rgba(124,108,255,0.16);outline-offset:3px}
@@ -266,21 +252,16 @@
           <div class="small muted">Design · Frontend</div>
         </div>
       </a>
-
       <nav aria-label="Main navigation">
         <a class="focusable" href="#features">Features</a>
-        <a class="focusable" href="#work">Work</a>
         <a class="focusable" href="#contact">Contact</a>
         <a class="cta focusable" href="#contact">Get started</a>
       </nav>
-
-      <!-- mobile toggle (only visible on small screens) -->
       <button class="mobile-nav-toggle focusable" aria-expanded="false" aria-controls="mobileMenu" style="display:none;background:transparent;border:none;color:var(--muted)">
         ☰
       </button>
     </header>
 
-    <!-- HERO -->
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-card reveal">
         <h1 id="hero-heading">Design-forward, fast, and accessible websites — built with intention.</h1>
@@ -288,7 +269,7 @@
 
         <div class="hero-ctas">
           <a class="cta focusable" href="#contact">Start a project</a>
-          <a class="btn-ghost focusable" href="#work">See sample work</a>
+          <a class="btn-ghost focusable" href="#features">See features</a>
         </div>
 
         <div class="stat-row" aria-hidden="true">
@@ -304,7 +285,6 @@
         </div>
       </div>
 
-      <!-- visual mockup -->
       <aside class="visual reveal" aria-hidden="true">
         <div class="device" role="img" aria-label="Interface preview">
           <div class="top"></div>
@@ -325,7 +305,6 @@
       </aside>
     </section>
 
-    <!-- Features -->
     <section id="features" aria-labelledby="features-head">
       <h2 id="features-head" style="margin:0 0 14px 0">What you get</h2>
       <p class="muted small" style="margin:0 0 18px 0">A design-forward template with best-practice accessibility, responsive layout, and lightweight code.</p>
@@ -336,17 +315,129 @@
           <h3 id="f1">Accessible by default</h3>
           <p>Semantic markup, focus states, aria labels and good color contrast so your site works for everyone.</p>
         </article>
-
         <article class="card reveal" aria-labelledby="f2">
           <div class="icon">R</div>
           <h3 id="f2">Responsive & fast</h3>
           <p>Fluid grid, responsive images and minimal dependencies to keep load times down on mobile.</p>
         </article>
-
         <article class="card reveal" aria-labelledby="f3">
           <div class="icon">M</div>
           <h3 id="f3">Micro-interactions</h3>
           <p>Subtle motion for delight: hover states, scroll reveals, and tiny transitions that make the UI feel alive.</p>
         </article>
-
         <article class="card reveal" aria-labelledby="f4">
+          <div class="icon">T</div>
+          <h3 id="f4">Design tokens</h3>
+          <p>Colors and spacing defined as variables so customization is fast — a practical starting point for a design system.</p>
+        </article>
+        <article class="card reveal" aria-labelledby="f5">
+          <div class="icon">C</div>
+          <h3 id="f5">Clean code</h3>
+          <p>Readable, semantic HTML and a single CSS file — easy to maintain and extend.</p>
+        </article>
+        <article class="card reveal" aria-labelledby="f6">
+          <div class="icon">S</div>
+          <h3 id="f6">Deploy-ready</h3>
+          <p>Drop this file into GitHub Pages, Netlify, or any static host and you’re live.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-band reveal" aria-hidden="true" style="margin-top:18px">
+      <div>
+        <div class="text">Want this tailored to your brand?</div>
+        <div class="sub">Color palette, type system, and components customised — fast turnaround.</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a class="cta focusable" href="#contact">Let's customize</a>
+        <a class="btn-ghost focusable" href="#features">Examples</a>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-head" style="margin-top:28px;">
+      <h2 id="contact-head" style="margin:0 0 12px 0">Start a project</h2>
+      <p class="muted small" style="margin:0 0 14px 0">Tell me about your goals and timeline — or use the form below to request a quote.</p>
+
+      <div class="hero-card reveal" style="margin-top:12px;">
+        <form id="contactForm" autocomplete="on" novalidate>
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@domain.com" required>
+          </div>
+          <div>
+            <label for="company">Company (optional)</label>
+            <input id="company" name="company" type="text" placeholder="Company name">
+          </div>
+          <div>
+            <label for="budget">Estimated budget</label>
+            <input id="budget" name="budget" type="text" placeholder="e.g., $2k — $10k">
+          </div>
+          <div>
+            <label for="timeline">Timeline</label>
+            <input id="timeline" name="timeline" type="text" placeholder="e.g., 1–2 months">
+          </div>
+          <div>
+            <label for="message">Project summary</label>
+            <textarea id="message" name="message" placeholder="Short summary of the project" required></textarea>
+          </div>
+
+          <div class="form-footer">
+            <button type="submit" class="cta focusable">Send request</button>
+            <a href="#" class="btn-ghost focusable">Book a call</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div>&copy; <span id="year"></span> Margesh — All rights reserved</div>
+      <div class="muted">Built with care · Accessible · Lightweight</div>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold:0.12});
+      reveals.forEach(r => observer.observe(r));
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        reveals.forEach(r => {
+          r.style.transition = 'none';
+          r.classList.add('revealed');
+        });
+      }
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const name = form.name.value.trim()||'there';
+        const toast = document.createElement('div');
+        toast.textContent = `Thanks ${name}! Your request was received (demo).`;
+        toast.style.position='fixed';
+        toast.style.right='18px';
+        toast.style.bottom='18px';
+        toast.style.background='linear-gradient(90deg, rgba(124,108,255,0.14), rgba(110,231,183,0.08))';
+        toast.style.padding='12px 16px';
+        toast.style.borderRadius='10px';
+        toast.style.color='var(--white)';
+        toast.style.backdropFilter='blur(6px)';
+        toast.style.zIndex=9999;
+        document.body.appendChild(toast);
+        setTimeout(()=>toast.remove(), 4200);
+        form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>
