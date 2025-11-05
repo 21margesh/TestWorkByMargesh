@@ -1,420 +1,757 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Work by Margesh</title>
-    <!-- Load Tailwind CSS for utility-first styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Chart.js for Data Visualization -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <style>
-        /* Custom scrollbar and smooth behavior */
-        html { scroll-behavior: smooth; }
-        /* Set default font to Inter */
-        body { font-family: 'Inter', sans-serif; background-color: #0F172A; }
-        
-        /* Custom shadow for cards */
-        .concept-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        }
-        .concept-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3), 0 4px 6px -4px rgba(34, 197, 94, 0.3);
-        }
-        /* Style for the Defense-in-Depth visualization rings */
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid;
-            transition: all 0.5s ease-in-out;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Margesh | Interactive Tech Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- GSAP for micro-interactions -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg: 14, 18, 28;
+      --surface: 22, 29, 41;
+      --accent: 92, 225, 230;
+      --text: 232, 240, 254;
+    }
+    html, body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
+    /* Subtle grain */
+    .grain:before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.05'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      opacity: .35; pointer-events: none; mix-blend-mode: soft-light;
+    }
+    /* Badge glow */
+    .badge-active { box-shadow: 0 0 0.75rem rgba(92, 225, 230, 0.6); }
+    /* Card hover tilt */
+    .tilt:hover { transform: translateY(-2px) rotateX(1deg) rotateY(-1deg); }
+    /* Focus ring for accessibility */
+    .focus-ring:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; }
+  </style>
 </head>
-<body class="text-slate-100 min-h-screen">
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-sm shadow-xl border-b border-green-700/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="#" class="text-2xl font-extrabold text-green-400">TEST WORK</a>
-                <div class="flex space-x-4">
-                    <a href="#concepts" class="text-sm font-medium hover:text-green-400 transition">Concepts</a>
-                    <a href="#about" class="text-sm font-medium hover:text-green-400 transition">About</a>
-                    <a href="mailto:margesh@example.com" class="text-sm font-medium bg-green-600 px-3 py-1 rounded-full hover:bg-green-700 transition">Contact</a>
-                </div>
-            </div>
+
+<body class="bg-slate-900 text-slate-100">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-slate-900/60 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-8 w-8 rounded bg-teal-500/20 border border-teal-400/40 flex items-center justify-center">
+          <span class="text-teal-300 font-bold">M</span>
         </div>
-    </nav>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <!-- 1. Hero Section (Interactive Tagline) -->
-        <section id="hero" class="text-center py-12 md:py-24">
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">
-                <span class="text-slate-200">Hello, I'm Margesh.</span>
-            </h1>
-            <p class="text-xl md:text-3xl text-slate-400 font-light max-w-4xl mx-auto">
-                <span class="text-green-400 font-semibold mr-2">I build</span>
-                <span id="tagline-spinner" class="font-mono text-green-300 bg-slate-800 px-2 py-1 rounded-md inline-block min-w-[300px]"></span>
-                <span class="text-green-400 font-semibold ml-2">solutions.</span>
-            </p>
-            <div class="mt-10">
-                <a href="#concepts" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-slate-900 bg-green-500 hover:bg-green-600 transition duration-300 transform hover:scale-105">
-                    Explore Concepts ↓
-                </a>
+        <div>
+          <p class="text-sm font-semibold">Margesh Satishkumar Patel</p>
+          <p class="text-xs text-slate-400">IT AV Specialist • AI Shorts • Systems thinker</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="modeToggle" class="focus-ring px-3 py-1.5 rounded-md text-sm bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
+          Toggle dark/light
+        </button>
+        <a href="#work" class="focus-ring px-3 py-1.5 rounded-md text-sm bg-teal-600 hover:bg-teal-500 text-slate-900 font-semibold transition">
+          Explore demos
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative isolate overflow-hidden grain">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950"></div>
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+            Interactive tech demos with real personality
+          </h1>
+          <p id="tagline" class="mt-3 text-slate-300">
+            AV systems • Data stories • Surreal micro-interactions
+          </p>
+          <div class="mt-6 flex gap-3">
+            <a href="#work" class="focus-ring px-4 py-2 rounded-md bg-teal-600 hover:bg-teal-500 text-slate-900 font-semibold transition">
+              See the work
+            </a>
+            <button id="buildMode" class="focus-ring px-4 py-2 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">
+              Build-with-me mode
+            </button>
+          </div>
+          <div class="mt-6 text-xs text-slate-400">
+            Tip: Try toggling parameters inside each demo — charts and animations respond instantly.
+          </div>
+        </div>
+        <!-- Hero preview panel -->
+        <div class="relative">
+          <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4 shadow-lg">
+            <canvas id="heroChart" class="w-full h-48"></canvas>
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <button data-hero="sales" class="focus-ring px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm">
+                Sales trend
+              </button>
+              <button data-hero="security" class="focus-ring px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm">
+                Security rings
+              </button>
+              <button data-hero="devops" class="focus-ring px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm">
+                DevOps uptime
+              </button>
+              <button data-hero="audience" class="focus-ring px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm">
+                Audience spikes
+              </button>
             </div>
-        </section>
-        <!-- 2. Concept Grid: Main Portfolio Overview -->
-        <section id="concepts" class="pt-16 pb-8">
-            <h2 class="text-4xl font-bold mb-10 text-center text-green-400">Concept Showroom</h2>
-            <p class="text-center text-slate-400 mb-12 max-w-3xl mx-auto">
-                Select a high-demand domain below to load a live, interactive demonstration of a core technical principle directly into the detail panel.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <!-- 1. AI Card -->
-                <div onclick="loadConcept('ai')" data-concept="ai" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
-                    <div class="text-3xl mb-2">🤖</div>
-                    <h3 class="text-xl font-bold text-slate-50 mb-1">Artificial Intelligence</h3>
-                    <p class="text-slate-400 text-sm">LLMs, Automation, Predictive Models.</p>
-                </div>
-                <!-- 2. Cloud & DevOps Card (Interactive Demo) -->
-                <div onclick="loadConcept('cloud_devops')" data-concept="cloud_devops" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
-                    <div class="text-3xl mb-2">☁️</div>
-                    <h3 class="text-xl font-bold text-slate-50 mb-1">Cloud & DevOps</h3>
-                    <p class="text-slate-400 text-sm">Containerization, IaC, Scalability.</p>
-                </div>
-                <!-- 3. Data Science Card (Interactive Demo) -->
-                <div onclick="loadConcept('data_science')" data-concept="data_science" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
-                    <div class="text-3xl mb-2">📊</div>
-                    <h3 class="text-xl font-bold text-slate-50 mb-1">Data Science</h3>
-                    <p class="text-slate-400 text-sm">Visualization, ETL, Business Insight.</p>
-                </div>
-                <!-- 4. Cybersecurity Card (Interactive Demo) -->
-                <div onclick="loadConcept('cybersecurity')" data-concept="cybersecurity" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
-                    <div class="text-3xl mb-2">🔒</div>
-                    <h3 class="text-xl font-bold text-slate-50 mb-1">Cybersecurity</h3>
-                    <p class="text-slate-400 text-sm">Defense-in-Depth, Threat Modeling.</p>
-                </div>
-                <!-- 5. Full-Stack Dev Card -->
-                <div onclick="loadConcept('full_stack')" data-concept="full_stack" class="concept-card bg-slate-800 p-6 rounded-xl cursor-pointer ring-2 ring-slate-700 hover:ring-green-500">
-                    <div class="text-3xl mb-2">💻</div>
-                    <h3 class="text-xl font-bold text-slate-50 mb-1">Full-Stack Dev</h3>
-                    <p class="text-slate-400 text-sm">APIs, Frontend Architecture, State.</p>
-                </div>
-            </div>
-        </section>
-        <!-- 3. Active Detail Panel (Dynamic Content Area) -->
-        <section id="detail-panel" class="mt-16 bg-slate-900 border border-green-700/50 rounded-xl p-8 shadow-2xl min-h-[600px] flex items-center justify-center flex-col">
-            <h2 class="text-4xl font-bold text-green-500 mb-4">Start Exploring!</h2>
-            <p class="text-slate-400 text-lg">Click any of the Concept Cards above to load an interactive demo here.</p>
-        </section>
-        <!-- 4. About & Contact Footer -->
-        <section id="about" class="mt-24 pt-12 border-t border-slate-700 text-center">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">About Margesh</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto mb-8">
-                I am a focused IT professional dedicated to turning complex technological concepts into functional, scalable, and understandable solutions. This portfolio is a demonstration of my ability to apply coding fundamentals to high-level system design.
-            </p>
-            <div class="flex justify-center space-x-6">
-                <a href="https://linkedin.com/in/margesh" target="_blank" class="text-slate-400 hover:text-green-500 transition">LinkedIn</a>
-                <a href="https://github.com/margesh" target="_blank" class="text-slate-400 hover:text-green-500 transition">GitHub</a>
-                <a href="mailto:margesh@example.com" class="text-slate-400 hover:text-green-500 transition">Email</a>
-            </div>
-            <p class="text-sm text-slate-600 mt-12">&copy; 2025 Test Work by Margesh. Built with Interactivity in Mind.</p>
-        </section>
-    </main>
-    <script>
-        // --- Configuration & Global State ---
-        const DETAIL_PANEL = document.getElementById('detail-panel');
-        const TAGLINE_SPINNER = document.getElementById('tagline-spinner');
-        let activeChart = null; // To hold the active Chart.js instance
-        // The core data structure for the portfolio.
-        // Each key corresponds to the data-concept attribute on the cards.
-        const concepts = {
-            'ai': {
-                title: "Artificial Intelligence: Coming Soon",
-                description: "This section will feature a customized, task-specific AI Agent (e.g., a Kubernetes Command Helper Bot) to demonstrate prompt engineering and focused LLM usage. Stay tuned!",
-                content: renderComingSoon, // Function pointer
-            },
-            'cloud_devops': {
-                title: "Cloud & DevOps: Containerization Cost-Benefit Analyzer",
-                description: "A demonstration of infrastructure efficiency, visualizing the TCO (Total Cost of Ownership) comparison between traditional Monolithic deployment and modern Containerized Microservices.",
-                content: renderCloudCostChart, // Function pointer
-            },
-            'data_science': {
-                title: "Data Science: Real-Time Data Filtering Dashboard",
-                description: "An interactive Chart.js application showing how dynamic user input (e.g., filtering) is used to update visualizations in real-time, key for business intelligence dashboards.",
-                content: renderDataFilterDashboard, // Function pointer
-            },
-            'cybersecurity': {
-                title: "Cybersecurity: Defense-in-Depth Model",
-                description: "A conceptual visualization of the layered security model, illustrating how multiple defensive mechanisms protect assets at different stages of attack.",
-                content: renderCybersecurityDiagram, // Function pointer
-            },
-            'full_stack': {
-                title: "Full-Stack Development: Coming Soon",
-                description: "Future projects here will include a complex state management demo (e.g., a simple collaborative editor) or an interactive API endpoint tester, showcasing both frontend and backend logic flow.",
-                content: renderComingSoon, // Function pointer
-            },
+          </div>
+        </div>
+      </div>
+
+      <!-- Badges / Progress -->
+      <div class="mt-10 flex flex-wrap items-center gap-2">
+        <span class="text-xs text-slate-400 mr-2">Your progress:</span>
+        <div id="badge-datasci" class="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Data Science</div>
+        <div id="badge-cyber" class="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Cybersecurity</div>
+        <div id="badge-devops" class="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Cloud & DevOps</div>
+        <div id="badge-av" class="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">AV Systems</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work grid -->
+  <section id="work" class="max-w-7xl mx-auto px-4 py-12">
+    <div class="flex items-baseline justify-between mb-6">
+      <h2 class="text-2xl font-bold">Interactive demos</h2>
+      <div class="text-sm text-slate-400">Click a card to load the demo in the detail panel</div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Data Science -->
+      <button class="focus-ring tilt group rounded-xl border border-slate-800 bg-slate-900 p-4 text-left transition"
+              data-demo="datasci">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold">Data Science</p>
+          <span class="text-xs text-slate-400 group-hover:text-teal-300 transition">Interactive chart</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-300">Forecast, filters, and parameter sliders.</p>
+      </button>
+
+      <!-- Cybersecurity -->
+      <button class="focus-ring tilt group rounded-xl border border-slate-800 bg-slate-900 p-4 text-left transition"
+              data-demo="cyber">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold">Cybersecurity</p>
+          <span class="text-xs text-slate-400 group-hover:text-teal-300 transition">Animated rings</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-300">Defense layers pulse on hover; click to reveal case notes.</p>
+      </button>
+
+      <!-- Cloud & DevOps -->
+      <button class="focus-ring tilt group rounded-xl border border-slate-800 bg-slate-900 p-4 text-left transition"
+              data-demo="devops">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold">Cloud & DevOps</p>
+          <span class="text-xs text-slate-400 group-hover:text-teal-300 transition">Uptime & cost</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-300">Uptime chart + cost toggle with tooltips.</p>
+      </button>
+
+      <!-- AV Systems -->
+      <button class="focus-ring tilt group rounded-xl border border-slate-800 bg-slate-900 p-4 text-left transition"
+              data-demo="av">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold">AV Systems</p>
+          <span class="text-xs text-slate-400 group-hover:text-teal-300 transition">Room flow</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-300">Signal chain visualizer with device states.</p>
+      </button>
+    </div>
+
+    <!-- Detail panel -->
+    <div class="mt-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-6">
+      <div class="flex items-start justify-between">
+        <div>
+          <h3 id="demoTitle" class="text-xl font-bold">Pick a demo to begin</h3>
+          <p id="demoSubtitle" class="text-sm text-slate-400">Your interactions unlock badges and persist locally.</p>
+        </div>
+        <button id="resetProgress" class="focus-ring px-3 py-1.5 rounded-md text-sm bg-slate-800 hover:bg-slate-700 border border-slate-700">
+          Reset progress
+        </button>
+      </div>
+
+      <div id="demoRoot" class="mt-6 grid md:grid-cols-3 gap-6 items-start">
+        <!-- Controls -->
+        <div id="demoControls" class="md:col-span-1 space-y-4"></div>
+        <!-- Canvas / Viz -->
+        <div id="demoViz" class="md:col-span-2 rounded-xl border border-slate-800 bg-slate-900 p-4 min-h-[280px] relative overflow-hidden">
+          <div class="absolute inset-0 flex items-center justify-center text-slate-500">
+            Select any demo card to load a live visualization here.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-16 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 py-8 text-sm text-slate-400">
+      <div class="flex items-center justify-between">
+        <p>Made with care and micro-interactions. © 2025 Margesh</p>
+        <div class="flex gap-3">
+          <a class="focus-ring hover:text-teal-300" href="#work">Demos</a>
+          <a class="focus-ring hover:text-teal-300" href="https://github.com/21margesh" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Script -->
+  <script>
+    // State
+    const state = {
+      mode: 'dark',
+      buildWithMe: false,
+      progress: JSON.parse(localStorage.getItem('progress') || '{}'),
+      currentDemo: null,
+      charts: {},
+      gsaps: []
+    };
+
+    // Utilities
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+    const setBadge = (key, active) => {
+      const el = $('#badge-' + key);
+      if (!el) return;
+      el.classList.toggle('badge-active', !!active);
+      el.classList.toggle('bg-teal-600/20', !!active);
+      el.classList.toggle('border-teal-500/50', !!active);
+      el.classList.toggle('text-teal-300', !!active);
+    };
+    const saveProgress = () => localStorage.setItem('progress', JSON.stringify(state.progress));
+    const unlock = (key) => {
+      state.progress[key] = true;
+      setBadge(key, true);
+      saveProgress();
+    };
+
+    // Initialize badges from persisted progress
+    ['datasci','cyber','devops','av'].forEach(k => setBadge(k, !!state.progress[k]));
+
+    // Dark/light mode
+    const modeToggle = $('#modeToggle');
+    modeToggle.addEventListener('click', () => {
+      state.mode = state.mode === 'dark' ? 'light' : 'dark';
+      document.documentElement.classList.toggle('dark', state.mode === 'dark');
+      document.body.classList.toggle('bg-white', state.mode === 'light');
+      document.body.classList.toggle('text-slate-900', state.mode === 'light');
+      document.body.classList.toggle('bg-slate-900', state.mode === 'dark');
+      document.body.classList.toggle('text-slate-100', state.mode === 'dark');
+    });
+
+    // Build-with-me mode
+    $('#buildMode').addEventListener('click', () => {
+      state.buildWithMe = !state.buildWithMe;
+      const msg = state.buildWithMe
+        ? 'Build-with-me is ON — controls will reveal more parameters.'
+        : 'Build-with-me is OFF — back to curated controls.';
+      gsap.to('#buildMode', { backgroundColor: state.buildWithMe ? '#0f766e' : '#1f2937', duration: 0.3 });
+      notify(msg);
+      if (state.currentDemo) demos[state.currentDemo].renderControls();
+    });
+
+    // Toast-like notify
+    const notify = (text) => {
+      const host = document.createElement('div');
+      host.className = 'fixed inset-x-0 top-16 z-50 flex justify-center pointer-events-none';
+      host.innerHTML = `
+        <div class="pointer-events-auto px-3 py-2 rounded bg-slate-800 border border-slate-700 text-sm">${text}</div>
+      `;
+      document.body.appendChild(host);
+      gsap.fromTo(host, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.25 });
+      setTimeout(() => gsap.to(host, { opacity: 0, y: -10, duration: 0.3, onComplete: () => host.remove() }), 1800);
+    };
+
+    // Hero tagline rotation
+    const taglines = [
+      'AV systems • Data stories • Surreal micro-interactions',
+      'Cloud orchestration • Observability • Creative automation',
+      'Security layers • Real-time charts • Clean UX'
+    ];
+    let tIndex = 0;
+    setInterval(() => {
+      tIndex = (tIndex + 1) % taglines.length;
+      const el = $('#tagline');
+      gsap.to(el, { opacity: 0, y: -6, duration: 0.2, onComplete: () => {
+        el.textContent = taglines[tIndex];
+        gsap.to(el, { opacity: 1, y: 0, duration: 0.25 });
+      }});
+    }, 2800);
+
+    // Hero chart
+    const heroCtx = $('#heroChart').getContext('2d');
+    const heroChart = new Chart(heroCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],
+        datasets: [{
+          label: 'Momentum',
+          data: [3,5,4,7,6,9,10,12],
+          borderColor: '#22d3ee',
+          backgroundColor: 'rgba(34, 211, 238, 0.2)',
+          tension: 0.35,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { x: { ticks: { color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' } } }
+      }
+    });
+    $$('#heroChart ~ .grid [data-hero]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset = btn.dataset.hero;
+        const map = {
+          sales: [3,5,4,7,6,9,10,12],
+          security: [2,3,5,4,6,7,9,11],
+          devops: [99,99.5,99.6,99.8,99.9,99.95,99.97,99.99],
+          audience: [10,8,12,20,18,30,26,40]
         };
-        // --- Core Application Logic ---
-        /**
-         * The central function that loads and renders the selected concept demo.
-         * @param {string} key - The key from the 'concepts' object.
-         */
-        function loadConcept(key) {
-            const concept = concepts[key];
-            if (!concept) return console.error('Concept not found:', key);
-            // 1. Clear previous content and destroy the old chart instance
-            DETAIL_PANEL.innerHTML = '';
-            if (activeChart) {
-                activeChart.destroy();
-                activeChart = null;
-            }
-            // 2. Build the basic container structure
-            const container = document.createElement('div');
-            container.className = 'w-full transition-opacity duration-500 ease-in';
-            container.innerHTML = `
-                <h3 class="text-3xl font-bold text-green-400 mb-3">${concept.title}</h3>
-                <p class="text-md text-slate-400 mb-8 max-w-4xl">${concept.description}</p>
-                <div id="concept-demo-area" class="w-full bg-slate-800 p-6 rounded-lg shadow-xl border border-slate-700">
-                    <!-- Dynamic content loads here -->
-                </div>
-            `;
-            DETAIL_PANEL.appendChild(container);
-            // 3. Call the specific render function to populate the demo area
-            const demoArea = document.getElementById('concept-demo-area');
-            if (concept.content) {
-                concept.content(demoArea);
-            }
-            // Update active state in the card grid
-            document.querySelectorAll('.concept-card').forEach(card => {
-                card.classList.remove('ring-green-500', 'ring-offset-2', 'ring-offset-slate-900');
-                if (card.dataset.concept === key) {
-                    card.classList.add('ring-green-500', 'ring-offset-2', 'ring-offset-slate-900');
-                }
-            });
-            // Scroll to the detail panel on mobile/small screens
-            if (window.innerWidth < 1024) {
-                 DETAIL_PANEL.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-        // --- Concept Rendering Functions (Specific Demos) ---
-        /**
-         * Renders a placeholder for concepts under development.
-         */
-        function renderComingSoon(demoArea) {
-            demoArea.innerHTML = `
-                <div class="p-12 text-center">
-                    <div class="text-6xl mb-4 animate-pulse">🚧</div>
-                    <p class="text-xl text-slate-500">This concept is currently in development. Check back soon!</p>
-                </div>
-            `;
-        }
+        heroChart.data.datasets[0].data = map[preset];
+        heroChart.update();
+        gsap.fromTo('#heroChart', { scale: 0.98 }, { scale: 1, duration: 0.25 });
+      });
+    });
 
-        // --- 1. Cloud & DevOps Demo ---
-        function renderCloudCostChart(demoArea) {
-            demoArea.innerHTML = `
-                <h4 class="text-xl font-semibold mb-4 text-slate-50">TCO Comparison: Monolith vs. Containers</h4>
-                <canvas id="cloudCostChart" class="max-h-[400px]"></canvas>
-                <p class="mt-4 text-sm text-slate-500">This chart simulates a 1-year TCO. Containerization reduces OS and Management Overhead, leading to a lower overall cost.</p>
-            `;
-            const ctx = document.getElementById('cloudCostChart').getContext('2d');
-            activeChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Hardware/Compute', 'OS Licensing & Patching', 'Management Overhead', 'Deployment Time'],
-                    datasets: [
-                        {
-                            label: 'Monolithic (VM)',
-                            data: [8000, 3000, 4500, 2000],
-                            backgroundColor: 'rgba(239, 68, 68, 0.8)', // Red
-                        },
-                        {
-                            label: 'Containerized (K8s)',
-                            data: [7500, 500, 1500, 500],
-                            backgroundColor: 'rgba(52, 211, 153, 0.8)', // Green
-                        }
-                    ]
+    // Demo framework
+    const demoTitle = $('#demoTitle');
+    const demoSubtitle = $('#demoSubtitle');
+    const demoControls = $('#demoControls');
+    const demoViz = $('#demoViz');
+
+    // Clear viz helpers
+    const clearViz = () => {
+      state.gsaps.forEach(a => a.kill && a.kill());
+      state.gsaps = [];
+      Object.values(state.charts).forEach(c => c.destroy && c.destroy());
+      state.charts = {};
+      demoViz.innerHTML = '';
+    };
+
+    // Templates
+    const el = (html) => {
+      const d = document.createElement('div');
+      d.innerHTML = html.trim();
+      return d.firstElementChild;
+    };
+
+    // Demos registry
+    const demos = {
+      datasci: {
+        name: 'Data Science',
+        desc: 'Interactive forecast with filters and sliders.',
+        renderControls() {
+          demoControls.innerHTML = '';
+          const controls = [
+            el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm">Growth rate</span>
+                  <span id="dsRateLabel" class="text-xs text-slate-400">+12%</span>
+                </div>
+                <input id="dsRate" type="range" min="0" max="30" value="12" class="w-full mt-2 accent-teal-500">
+              </div>
+            `),
+            el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <span class="text-sm">Seasonality</span>
+                <div class="mt-2 flex gap-2">
+                  <button data-season="low" class="focus-ring px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Low</button>
+                  <button data-season="med" class="focus-ring px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">Medium</button>
+                  <button data-season="high" class="focus-ring px-2 py-1 rounded bg-slate-800 border border-slate-700 text-xs">High</button>
+                </div>
+              </div>
+            `)
+          ];
+          if (state.buildWithMe) {
+            controls.push(el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <span class="text-sm">Noise</span>
+                <input id="dsNoise" type="range" min="0" max="20" value="6" class="w-full mt-2 accent-teal-500">
+              </div>
+            `));
+          }
+          controls.forEach(c => demoControls.appendChild(c));
+
+          // Events
+          $('#dsRate').addEventListener('input', (e) => {
+            $('#dsRateLabel').textContent = `+${e.target.value}%`;
+            demos.datasci.renderViz();
+          });
+          $$('#demoControls [data-season]').forEach(b => {
+            b.addEventListener('click', () => {
+              $$('#demoControls [data-season]').forEach(x => x.classList.remove('bg-teal-600','text-slate-900'));
+              b.classList.add('bg-teal-600','text-slate-900');
+              b.dataset.active = '1';
+              demos.datasci.renderViz();
+            });
+          });
+          const defaultSeason = $$('#demoControls [data-season]')[1];
+          defaultSeason.click();
+        },
+        renderViz() {
+          clearViz();
+          const rate = parseInt($('#dsRate').value, 10);
+          const seasonEl = $$('#demoControls [data-season]').find(x => x.dataset.active === '1');
+          const season = seasonEl ? seasonEl.dataset.season : 'med';
+          const noise = state.buildWithMe ? parseInt(($('#dsNoise')?.value || 6), 10) : 6;
+
+          const seasonAmp = { low: 2, med: 5, high: 9 }[season];
+          const base = [12, 13, 14, 16, 18, 19, 21, 24, 25, 27, 29, 32];
+          const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          const data = base.map((v, i) => {
+            const s = Math.sin((i/12) * Math.PI * 2) * seasonAmp;
+            const n = (Math.random() - 0.5) * noise;
+            return Math.max(0, v * (1 + rate/100) + s + n);
+          });
+
+          const canvas = el('<canvas class="w-full h-64"></canvas>');
+          demoViz.appendChild(canvas);
+          const ctx = canvas.getContext('2d');
+          const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels,
+              datasets: [{
+                label: 'Forecast',
+                data,
+                borderColor: '#22d3ee',
+                backgroundColor: 'rgba(34, 211, 238, 0.2)',
+                tension: 0.35,
+                fill: true,
+                pointRadius: 0
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+              },
+              scales: {
+                x: { ticks: { color: '#94a3b8' } },
+                y: { ticks: { color: '#94a3b8' }, beginAtZero: true }
+              }
+            }
+          });
+          state.charts.datasci = chart;
+
+          const note = el(`
+            <div class="mt-4 text-sm text-slate-300">
+              <span class="font-semibold">Insight:</span> Adjust growth and seasonality to observe demand oscillations and trend lift.
+            </div>
+          `);
+          demoViz.appendChild(note);
+
+          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 });
+          unlock('datasci');
+        }
+      },
+
+      cyber: {
+        name: 'Cybersecurity',
+        desc: 'Layered defense rings with hover pulses and case notes.',
+        renderControls() {
+          demoControls.innerHTML = '';
+          const controls = [
+            el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <span class="text-sm">Threat level</span>
+                <input id="cyThreat" type="range" min="0" max="100" value="35" class="w-full mt-2 accent-teal-500">
+              </div>
+            `),
+            el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <span class="text-sm">Focus layer</span>
+                <select id="cyLayer" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-sm">
+                  <option value="1">Perimeter</option>
+                  <option value="2">Network</option>
+                  <option value="3">Endpoint</option>
+                  <option value="4">Identity</option>
+                  <option value="5">Data</option>
+                </select>
+              </div>
+            `)
+          ];
+          controls.forEach(c => demoControls.appendChild(c));
+          $('#cyThreat').addEventListener('input', demos.cyber.renderViz);
+          $('#cyLayer').addEventListener('change', demos.cyber.renderViz);
+        },
+        renderViz() {
+          clearViz();
+          const threat = parseInt($('#cyThreat').value, 10);
+          const focusLayer = parseInt($('#cyLayer').value, 10);
+
+          const host = el(`<div class="relative w-full aspect-square flex items-center justify-center"></div>`);
+          demoViz.appendChild(host);
+
+          // SVG rings
+          const size = 280;
+          const svg = el(`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"></svg>`);
+          host.appendChild(svg);
+
+          const cx = size/2, cy = size/2;
+          const layers = [
+            { r: 60, label: 'Perimeter' },
+            { r: 80, label: 'Network' },
+            { r: 100, label: 'Endpoint' },
+            { r: 120, label: 'Identity' },
+            { r: 140, label: 'Data' },
+          ];
+
+          layers.forEach((layer, i) => {
+            const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            ring.setAttribute('cx', cx); ring.setAttribute('cy', cy); ring.setAttribute('r', layer.r);
+            ring.setAttribute('fill', 'none');
+            const active = (i+1) === focusLayer;
+            const color = active ? '#22d3ee' : '#334155';
+            ring.setAttribute('stroke', color);
+            ring.setAttribute('stroke-width', active ? 6 : 3);
+            ring.style.cursor = 'pointer';
+
+            ring.addEventListener('mouseenter', () => {
+              const tween = gsap.to(ring, { attr: { 'stroke-width': active ? 9 : 5 }, duration: 0.2 });
+              state.gsaps.push(tween);
+            });
+            ring.addEventListener('mouseleave', () => {
+              const tween = gsap.to(ring, { attr: { 'stroke-width': active ? 6 : 3 }, duration: 0.2 });
+              state.gsaps.push(tween);
+            });
+            ring.addEventListener('click', () => {
+              const msg = `Layer ${i+1}: ${layer.label} — Case note: thwarted phishing via MFA & conditional access.`;
+              notify(msg);
+            });
+
+            svg.appendChild(ring);
+          });
+
+          // Threat pulse indicator
+          const pulse = el(`<div class="absolute inset-0 flex items-center justify-center"></div>`);
+          const dot = el(`<div class="h-3 w-3 rounded-full bg-red-500 shadow"></div>`);
+          pulse.appendChild(dot);
+          host.appendChild(pulse);
+
+          const speed = Math.max(0.4, 2.2 - (threat/60));
+          const tweener = gsap.to(dot, { scale: 1.8, opacity: 0.2, repeat: -1, yoyo: true, duration: speed });
+          state.gsaps.push(tweener);
+
+          const legend = el(`
+            <div class="mt-4 text-sm text-slate-300">
+              <span class="font-semibold">Threat level:</span> ${threat} • Focus: Layer ${focusLayer}
+            </div>
+          `);
+          demoViz.appendChild(legend);
+
+          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 });
+          unlock('cyber');
+        }
+      },
+
+      devops: {
+        name: 'Cloud & DevOps',
+        desc: 'Uptime chart with cost overlay and hover tooltips.',
+        renderControls() {
+          demoControls.innerHTML = '';
+          const controls = [
+            el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <input id="dvCost" type="checkbox" class="accent-teal-500">
+                  Show cost overlay
+                </label>
+              </div>
+            `),
+            el(`
+              <div class="rounded-lg border border-slate-800 bg-slate-900 p-3">
+                <span class="text-sm">Region</span>
+                <select id="dvRegion" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-sm">
+                  <option value="us">US-East</option>
+                  <option value="eu">EU-West</option>
+                  <option value="apac">APAC</option>
+                </select>
+              </div>
+            `)
+          ];
+          controls.forEach(c => demoControls.appendChild(c));
+          $('#dvCost').addEventListener('change', demos.devops.renderViz);
+          $('#dvRegion').addEventListener('change', demos.devops.renderViz);
+        },
+        renderViz() {
+          clearViz();
+          const showCost = $('#dvCost').checked;
+          const region = $('#dvRegion').value;
+          const labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+          const uptimeBase = { us: [99.92,99.94,99.93,99.95,99.96,99.97,99.98], eu: [99.9,99.92,99.91,99.94,99.95,99.96,99.96], apac: [99.88,99.9,99.92,99.93,99.94,99.95,99.96] }[region];
+          const costBase = { us: [120,115,118,122,119,117,121], eu: [130,127,129,131,128,126,130], apac: [110,108,111,113,112,109,114] }[region];
+
+          const canvas = el('<canvas class="w-full h-64"></canvas>');
+          demoViz.appendChild(canvas);
+          const ctx = canvas.getContext('2d');
+
+          const datasets = [{
+            label: 'Uptime %',
+            data: uptimeBase,
+            yAxisID: 'y',
+            borderColor: '#22d3ee',
+            backgroundColor: 'rgba(34, 211, 238, 0.2)',
+            tension: 0.35,
+            fill: true
+          }];
+          if (showCost) {
+            datasets.push({
+              label: 'Daily cost ($)',
+              data: costBase,
+              yAxisID: 'y1',
+              type: 'bar',
+              backgroundColor: 'rgba(147, 51, 234, 0.4)',
+              borderColor: '#9333ea'
+            });
+          }
+
+          const chart = new Chart(ctx, {
+            type: 'line',
+            data: { labels, datasets },
+            options: {
+              responsive: true,
+              plugins: { legend: { display: true } },
+              scales: {
+                y: {
+                  position: 'left',
+                  ticks: { color: '#94a3b8', callback: v => v + '%' },
+                  min: 99.85, max: 100
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Cost/Effort (USD & Hours Equivalent)', color: '#94A3B8' },
-                            ticks: { color: '#94A3B8' },
-                            grid: { color: '#334155' }
-                        },
-                        x: {
-                            ticks: { color: '#94A3B8' },
-                            grid: { color: '#334155' }
-                        }
-                    },
-                    plugins: {
-                        legend: { labels: { color: '#E2E8F0' } },
-                        title: { display: false }
-                    }
-                }
-            });
-        }
-
-        // --- 2. Data Science Demo ---
-        function renderDataFilterDashboard(demoArea) {
-            demoArea.innerHTML = `
-                <h4 class="text-xl font-semibold mb-4 text-slate-50">Sales Performance: Dynamic Filtering</h4>
-                <div class="flex items-center space-x-4 mb-4">
-                    <span class="text-slate-400">Filter Region:</span>
-                    <button id="filter-all" class="px-3 py-1 bg-green-600 rounded-full text-sm hover:bg-green-700 transition">All</button>
-                    <button id="filter-north" class="px-3 py-1 bg-slate-700 rounded-full text-sm hover:bg-slate-600 transition">North</button>
-                    <button id="filter-south" class="px-3 py-1 bg-slate-700 rounded-full text-sm hover:bg-slate-600 transition">South</button>
-                </div>
-                <canvas id="dataFilterChart" class="max-h-[400px]"></canvas>
-            `;
-            const dataSets = {
-                all: [120, 190, 30, 500, 200, 300, 450, 600, 800, 750, 900, 1100],
-                north: [50, 80, 15, 220, 90, 130, 200, 300, 420, 380, 500, 650],
-                south: [70, 110, 15, 280, 110, 170, 250, 300, 380, 370, 400, 450],
-            };
-            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const ctx = document.getElementById('dataFilterChart').getContext('2d');
-            activeChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Total Sales (All Regions)',
-                        data: dataSets.all,
-                        borderColor: '#34D399', // Green
-                        backgroundColor: 'rgba(52, 211, 153, 0.2)',
-                        tension: 0.3,
-                        pointBackgroundColor: '#34D399',
-                    }]
+                y1: {
+                  position: 'right',
+                  ticks: { color: '#c084fc' },
+                  grid: { drawOnChartArea: false }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Revenue (K USD)', color: '#94A3B8' },
-                            ticks: { color: '#94A3B8' },
-                            grid: { color: '#334155' }
-                        },
-                        x: {
-                            ticks: { color: '#94A3B8' },
-                            grid: { color: '#334155' }
-                        }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
-            // Function to handle filter button click and update chart
-            const updateChart = (region) => {
-                const buttonMap = {
-                    'all': document.getElementById('filter-all'),
-                    'north': document.getElementById('filter-north'),
-                    'south': document.getElementById('filter-south')
-                };
-                // Update data
-                activeChart.data.datasets[0].data = dataSets[region];
-                activeChart.data.datasets[0].label = `Total Sales (${region.charAt(0).toUpperCase() + region.slice(1)} Region)`;
-                activeChart.update();
-                // Update button styles
-                Object.keys(buttonMap).forEach(key => {
-                    buttonMap[key].classList.remove('bg-green-600', 'hover:bg-green-700');
-                    buttonMap[key].classList.add('bg-slate-700', 'hover:bg-slate-600');
-                });
-                buttonMap[region].classList.remove('bg-slate-700', 'hover:bg-slate-600');
-                buttonMap[region].classList.add('bg-green-600', 'hover:bg-green-700');
-            };
-            // Attach event listeners
-            document.getElementById('filter-all').addEventListener('click', () => updateChart('all'));
-            document.getElementById('filter-north').addEventListener('click', () => updateChart('north'));
-            document.getElementById('filter-south').addEventListener('click', () => updateChart('south'));
-        }
-        // --- 3. Cybersecurity Demo ---
-        function renderCybersecurityDiagram(demoArea) {
-            demoArea.innerHTML = `
-                <h4 class="text-xl font-semibold mb-4 text-slate-50">Visualizing Layered Security (Defense-in-Depth)</h4>
-                <div class="relative w-full h-[400px] flex items-center justify-center">
-                    <div id="ring-container" class="relative flex items-center justify-center w-full h-full">
-                        <!-- Rings will be generated here -->
-                    </div>
-                </div>
-            `;
-            const ringContainer = document.getElementById('ring-container');
-            const layers = [
-                { name: 'Perimeter (Firewall)', size: '350px', color: '#6366F1', delay: 0.1 }, // Indigo
-                { name: 'Network (Segmentation)', size: '280px', color: '#3B82F6', delay: 0.2 }, // Blue
-                { name: 'Host (Endpoint Protection)', size: '210px', color: '#F59E0B', delay: 0.3 }, // Amber
-                { name: 'Application (Input Validation)', size: '140px', color: '#EC4899', delay: 0.4 }, // Pink
-                { name: 'Data (Encryption)', size: '70px', color: '#22C55E', delay: 0.5 } // Green (The Core Asset)
-            ];
-            layers.forEach((layer, index) => {
-                const ring = document.createElement('div');
-                ring.className = 'ring text-sm font-medium opacity-0';
-                ring.style.width = layer.size;
-                ring.style.height = layer.size;
-                ring.style.borderColor = layer.color;
-                ring.style.zIndex = layers.length - index; // Ensure inner rings are on top
-                ring.style.animation = `fadeIn 0.5s ease-out forwards ${layer.delay}s`;
-                // Add text only to specific layers for clarity
-                if (index % 2 === 0 || index === layers.length - 1) {
-                    const text = document.createElement('span');
-                    text.className = 'absolute';
-                    text.style.color = layer.color;
-                    text.textContent = layer.name;
-                    // Position text outside the ring for clarity
-                    if (index === 0) text.style.top = '-20px';
-                    else if (index === 2) text.style.left = 'calc(100% + 10px)';
-                    else if (index === 4) text.style.fontWeight = 'bold';
-                    ring.appendChild(text);
-                }
-                ringContainer.appendChild(ring);
-            });
-            // Inject keyframes for the fade-in effect
-            if (!document.getElementById('fadeInKeyframes')) {
-                const style = document.createElement('style');
-                style.id = 'fadeInKeyframes';
-                style.textContent = `
-                    @keyframes fadeIn {
-                        from { opacity: 0; transform: scale(0.5); }
-                        to { opacity: 1; transform: scale(1); }
-                    }
-                `;
-                document.head.appendChild(style);
+                x: { ticks: { color: '#94a3b8' } }
+              }
             }
-        }
+          });
+          state.charts.devops = chart;
 
-        // --- Initialization and Helper Functions ---
-        // Tagline text rotation
-        const taglines = [
-            "AI-Driven Solutions",
-            "Scalable Cloud Architecture",
-            "Real-time Data Insights",
-            "Secure DevOps Pipelines",
-            "Component-Based Frontend",
-        ];
-        let taglineIndex = 0;
-        function animateTagline() {
-            TAGLINE_SPINNER.classList.add('opacity-0');
-            setTimeout(() => {
-                TAGLINE_SPINNER.textContent = taglines[taglineIndex];
-                TAGLINE_SPINNER.classList.remove('opacity-0');
-                taglineIndex = (taglineIndex + 1) % taglines.length;
-            }, 300); // Wait for fade out
-            setTimeout(animateTagline, 3000); // Change every 3 seconds
+          const note = el(`
+            <div class="mt-4 text-sm text-slate-300">
+              <span class="font-semibold">Trade-off:</span> Overlay cost to visualize uptime vs spend across regions.
+            </div>
+          `);
+          demoViz.appendChild(note);
+
+          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 });
+          unlock('devops');
         }
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            animateTagline();
-            // Load a default concept on initial page load (optional, but good UX)
-            loadConcept('cloud_devops');
-        });
-    </script>
+      },
+
+      av: {
+        name: 'AV Systems',
+        desc: 'Signal chain visualizer with device state toggles.',
+        renderControls() {
+          demoControls.innerHTML = '';
+          const controls = el(`
+            <div class="rounded-lg border border-slate-800 bg-slate-900 p-3 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-sm">Mic active</span>
+                <input id="avMic" type="checkbox" class="accent-teal-500" checked>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">DSP bypass</span>
+                <input id="avDsp" type="checkbox" class="accent-teal-500">
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">Amplifier on</span>
+                <input id="avAmp" type="checkbox" class="accent-teal-500" checked>
+              </div>
+            </div>
+          `);
+          demoControls.appendChild(controls);
+          $$('#demoControls input').forEach(inp => inp.addEventListener('change', demos.av.renderViz));
+        },
+        renderViz() {
+          clearViz();
+          const mic = $('#avMic').checked;
+          const dspBypass = $('#avDsp').checked;
+          const amp = $('#avAmp').checked;
+
+          const chain = el('<div class="w-full flex flex-col md:flex-row items-center justify-center gap-4"></div>');
+          const node = (label, active) => el(`
+            <div class="flex flex-col items-center">
+              <div class="h-12 w-12 rounded-full ${active ? 'bg-teal-500' : 'bg-slate-700'} border ${active ? 'border-teal-300' : 'border-slate-600'} shadow"></div>
+              <div class="mt-2 text-xs ${active ? 'text-teal-300' : 'text-slate-400'}">${label}</div>
+            </div>
+          `);
+
+          const micNode = node('Mic', mic);
+          const dspNode = node('DSP', !dspBypass);
+          const ampNode = node('Amp', amp);
+          const spkNode = node('Speaker', mic && !dspBypass && amp);
+
+          chain.append(micNode, arrow(), dspNode, arrow(), ampNode, arrow(), spkNode);
+          demoViz.appendChild(chain);
+
+          // Flow animation
+          const path = el('<div class="relative w-full h-1 bg-slate-800 rounded md:hidden"></div>');
+          demoViz.appendChild(path); // mobile minor visual
+
+          gsap.fromTo(demoViz, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 });
+          unlock('av');
+        }
+      }
+    };
+
+    // Arrow helper
+    function arrow() {
+      return el('<div class="text-slate-500">➜</div>');
+    }
+
+    // Routing demos
+    $$('.grid [data-demo]').forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.dataset.demo;
+        const demo = demos[key];
+        state.currentDemo = key;
+        demoTitle.textContent = demo.name;
+        demoSubtitle.textContent = demo.desc;
+        demo.renderControls();
+        demo.renderViz();
+
+        gsap.fromTo(card, { y: 0 }, { y: -2, duration: 0.15, yoyo: true, repeat: 1 });
+      });
+    });
+
+    // Reset progress
+    $('#resetProgress').addEventListener('click', () => {
+      state.progress = {};
+      saveProgress();
+      ['datasci','cyber','devops','av'].forEach(k => setBadge(k, false));
+      notify('Progress reset.');
+    });
+
+    // Subtle entrance animations
+    gsap.from('.tilt', { opacity: 0, y: 14, stagger: 0.08, duration: 0.35, ease: 'power1.out' });
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from('#work', {
+      scrollTrigger: { trigger: '#work', start: 'top 80%' },
+      opacity: 0, y: 20, duration: 0.4
+    });
+  </script>
 </body>
 </html>
